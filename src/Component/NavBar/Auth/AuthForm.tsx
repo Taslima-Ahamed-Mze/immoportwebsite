@@ -23,11 +23,11 @@ const AuthForm = () => {
                 <fieldset>
                     <label>
                         <p>Email</p>
-                        <input name="email" value={value} onChange={handleInputValue} />
+                        <input name="email" value={value} onChange={handleInputValue} required />
                     </label>
                     <label>
                         <p>Password</p>
-                        <input name="password" type="password" />
+                        <input name="password" type="password" required />
                     </label>
                 </fieldset>
                 <button type="submit">Submit</button>
