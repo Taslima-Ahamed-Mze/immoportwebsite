@@ -1,17 +1,25 @@
 import base from "./base";
 
 
-export const login = (mail:string,password:string) => {
-    base.post('login-client',{
+const  login = async (mail:string,password:string) => {
+    return base.get('auth',{params:{
         mail,
         password
+    }
+        
     }).then((response) => {
        if(response.data.access_token)
        {
-        localStorage.setItem("access_token", JSON.stringify(response.data));
+            console.log(response.data);
+            localStorage.setItem("access_token", JSON.stringify(response.data.access_token));        
        }
+       
+    }).catch(error => {
+        
+        console.log(error.response.data.message);   
     });
 
 };
+export default login;
   
 
