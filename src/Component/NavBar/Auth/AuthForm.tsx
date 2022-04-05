@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {login} from '../../../Api/Auth';
 
 // import { FC } from 'react' // we ensure that we return valid JSX 
 const AuthForm = () => {
@@ -19,6 +20,12 @@ const AuthForm = () => {
             mail: data.get('email'),
             password: data.get('password')
         })
+        if(data.get('email') && data.get('password'))
+        {
+            login(data.get('email') as string,data.get('password') as string);
+        }
+        
+
     }
 
     // const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
