@@ -2,19 +2,19 @@ import React, { useState } from 'react'
 
 // import { FC } from 'react' // we ensure that we return valid JSX 
 const AuthForm = () => {
+    const [value, setValue] = useState('');
+    const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setValue(e.target.value);
+    };
+
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        console.log()
+       alert("Le mail: " + value + " a été soumis")
     }
 
     // const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     //     console.log(e.target.value);
     // };
-
-    const [value, setValue] = useState('');
-    const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(e.target.value);
-    };
 
     return (
         <div className="wrapper">
