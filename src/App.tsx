@@ -5,17 +5,19 @@ import ReactDOM from 'react-dom';
 import { StyledEngineProvider } from '@mui/material/styles';
 import Navbar from './Component/NavBar/Navbar';
 import AuthForm from './Component/NavBar/Auth/AuthForm';
-import {login} from './Api/Auth';
+import {register} from './Api/Auth';
 
 
 function App() {
   const handleClick = () => {
-    login("taslima@gmail.com", "password");
+    register("Test","register","test@gmail.com", "password","01234677");
   }
 
   return (
     <div className="App">
       <AuthForm />
+      <button onClick={handleClick}>Test register</button>
+
     </div>
   );
 }

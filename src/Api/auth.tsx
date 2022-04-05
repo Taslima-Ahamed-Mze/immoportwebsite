@@ -1,3 +1,4 @@
+import { MapLike } from "typescript";
 import base from "./BaseUrl";
 
 
@@ -5,8 +6,7 @@ export const  login = async (mail:string,password:string) => {
     return base.get('auth',{params:{
         mail,
         password
-    }
-        
+    }    
     }).then((response) => {
        if(response.data.access_token)
        {
@@ -21,8 +21,20 @@ export const  login = async (mail:string,password:string) => {
     });
 
 };
-export const register = async() =>{
-    
+export const register = async(lastname:string,firstname:string,mail:string,password:string,phone:string) =>{
+    return base.post('auth',{
+        lastname,
+        firstname,
+        mail,
+        password,
+        phone
+    }    
+    ).then((response) => {
+        return response.data.message
+    }).catch(error => {
+        
+        console.log(error);   
+    });
 }
   
 
