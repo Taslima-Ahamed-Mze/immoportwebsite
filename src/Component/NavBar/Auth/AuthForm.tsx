@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { login } from '../../../Api/auth';
+import { login } from '../../../Api/Auth';
+import { profile } from '../../../Api/Auth';
 
 // import { FC } from 'react' // we ensure that we return valid JSX 
 const AuthForm = () => {
@@ -24,7 +25,8 @@ const AuthForm = () => {
             login(data.get('email') as string, data.get('password') as string);
         }
 
-
+        React.useEffect(() => {
+        })
     }
 
     // const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
