@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 import { StyledEngineProvider } from '@mui/material/styles';
 import Navbar from './Component/NavBar/Navbar';
 import AuthForm from './Component/NavBar/Auth/AuthForm';
+import login from './Api/auth';
 
 // ReactDOM.render(
 //   <StyledEngineProvider injectFirst>
@@ -13,6 +14,10 @@ import AuthForm from './Component/NavBar/Auth/AuthForm';
 //   document.querySelector("#root")
 // );
 function App() {
+  const handleClick = () => {
+    login("taslim@gmail.com", "password");
+  }
+
   return (
     <div className="App">
       <AuthForm />
