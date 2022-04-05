@@ -1,15 +1,24 @@
-import React, { useState } from 'react'
+import * as React from 'react';
 
 // import { FC } from 'react' // we ensure that we return valid JSX 
 const AuthForm = () => {
-    const [value, setValue] = useState('');
-    const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(e.target.value);
-    };
+    // const [mail, setMail] = useState('');
+    // const handleMailValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     setMail(e.target.mail);
+    // };
+
+    // const [password, setPassword] = useState('');
+    // const handlePasswordValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     setPassword(e.target.password);
+    // };
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-       alert("Le mail: " + value + " a été soumis")
+        const data = new FormData(e.currentTarget)
+        console.log({
+            mail: data.get('email'),
+            password: data.get('password')
+        })
     }
 
     // const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,16 +32,15 @@ const AuthForm = () => {
                 <fieldset>
                     <label>
                         <p>Email</p>
-                        <input name="email" value={value} onChange={handleInputValue} />
+                        <input name="email" required />
                     </label>
                     <label>
                         <p>Password</p>
-                        <input name="password" type="password" />
+                        <input name="password" type="password" required />
                     </label>
                 </fieldset>
                 <button type="submit">Submit</button>
             </form>
-            <div>Input value: {value}</div>
         </div>
     )
 }

@@ -5,7 +5,6 @@ const RegisterForm = () => {
         alert("Votre enregistrement a bien été pris en compte.")
     }
 
-
     return (
         <div className="registerForm">
             <h1>Register</h1>
