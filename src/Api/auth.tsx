@@ -1,7 +1,7 @@
 import base from "./BaseUrl";
 
-
-export const  login = async (mail:string,password:string) => {
+//
+export const login = async (mail:string,password:string) => {
     return base.get('auth',{params:{
         mail,
         password
@@ -21,6 +21,8 @@ export const  login = async (mail:string,password:string) => {
     });
 
 };
+
+//
 export const register = async() =>{
     
 }
