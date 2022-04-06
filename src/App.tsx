@@ -10,7 +10,6 @@ import { StyledEngineProvider } from '@mui/material/styles';
 import Navbar from './Component/NavBar/Navbar';
 import AuthForm from './Component/NavBar/Auth/AuthForm';
 import { login } from './Api/auth';
-import { register } from './Api/auth';
 import ResponsiveAppBar from "./Component/NavBar/Navbar";
 import RegisterForm from './Component/NavBar/Register/RegisterForm';
 
@@ -27,7 +26,7 @@ function App() {
       <Routes>
           <Route path="/" element= {<ResponsiveAppBar />} />
           <Route path="/auth" element= {<AuthForm />} />
-          <Route path="/auth" element= {<RegisterForm />} />
+          <Route path="/register" element= {<RegisterForm />} />
       </Routes>
       
     </div>

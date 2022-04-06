@@ -11,9 +11,12 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import { NavLink, Link } from 'react-router-dom';
+import AuthForm from './Auth/AuthForm';
+import RegisterForm from './Register/RegisterForm';
 
-const pages = ['Inscription', 'Vendre', 'Louer', 'Bureaux & Commerces'];
-const settings = ['Profil', 'Favoris', 'Paramètres', 'Me déconnecter'];
+const pages = ['Acheter', 'Vendre', 'Louer', 'Bureaux & Commerces'];
+const settings = ['Connexion', 'Nouveau ? (Créer un compte)'];
 
 const ResponsiveAppBar = () => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -38,6 +41,8 @@ const ResponsiveAppBar = () => {
         <AppBar position="static">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
+
+                    {/*NAVBAR - version responsive*/}
                     <Typography
                         variant="h6"
                         noWrap
@@ -58,6 +63,7 @@ const ResponsiveAppBar = () => {
                         >
                             <MenuIcon />
                         </IconButton>
+
                         <Menu
                             id="menu-appbar"
                             anchorEl={anchorElNav}
@@ -83,6 +89,8 @@ const ResponsiveAppBar = () => {
                             ))}
                         </Menu>
                     </Box>
+
+                    {/*NAVBAR - version classique*/}
                     <Typography
                         variant="h6"
                         noWrap
@@ -91,6 +99,7 @@ const ResponsiveAppBar = () => {
                     >
                         LOGO
                     </Typography>
+
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.map((page) => (
                             <Button
@@ -125,13 +134,17 @@ const ResponsiveAppBar = () => {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
+                            <NavLink to={"/auth"}>{['Connection']}</NavLink>
+                            <NavLink to={"/register"}>{['Nouveau ? (Créer un compte)']}</NavLink>
+
                             {settings.map((setting) => (
                                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
+                                    <Typography textAlign="center">{setting}</Typography> 
                                 </MenuItem>
                             ))}
                         </Menu>
                     </Box>
+
                 </Toolbar>
             </Container>
         </AppBar>
