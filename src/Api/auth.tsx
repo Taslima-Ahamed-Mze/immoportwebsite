@@ -24,16 +24,13 @@ export const register = async () => {
 
 }
 export const profile = async (token: string) => {
-    return base.get('auth/profile', {
+    return base.get('client/profile', {
         headers: {
             'Authorization': `Bearer ${token}`
         }
     })
-        .then((response) => {
-            console.log(response.data)
-        }).catch(error => {
-            console.log(error)
+        .then((response) => response.data)
+        .catch(error => {
+            console.error('Error', error)
         })
 }
-
-

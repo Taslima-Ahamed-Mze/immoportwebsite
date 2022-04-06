@@ -1,37 +1,15 @@
-import * as React from 'react';
 import { login } from '../../../Api/Auth';
-import { profile } from '../../../Api/Auth';
 
 // import { FC } from 'react' // we ensure that we return valid JSX 
 const AuthForm = () => {
-    // const [mail, setMail] = useState('');
-    // const handleMailValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     setMail(e.target.mail);
-    // };
-
-    // const [password, setPassword] = useState('');
-    // const handlePasswordValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     setPassword(e.target.password);
-    // };
-
+    
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const data = new FormData(e.currentTarget)
-        console.log({
-            mail: data.get('email'),
-            password: data.get('password')
-        })
         if (data.get('email') && data.get('password')) {
-            login(data.get('email') as string, data.get('password') as string);
+            login(data.get('email') as string, data.get('password') as string)
         }
-
-        React.useEffect(() => {
-        })
     }
-
-    // const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     console.log(e.target.value);
-    // };
 
     return (
         <div className="wrapper">
