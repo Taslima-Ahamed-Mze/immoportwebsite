@@ -14,9 +14,18 @@ import MenuItem from '@mui/material/MenuItem';
 import { NavLink, Link } from 'react-router-dom';
 import AuthForm from './Auth/AuthForm';
 import RegisterForm from './Register/RegisterForm';
+import { Settings } from '@mui/icons-material';
 
 const pages = ['Acheter', 'Vendre', 'Louer', 'Bureaux & Commerces'];
-const settings = ['Connexion', 'Nouveau ? (Créer un compte)'];
+const settings = [{
+    name: 'Connexion',
+    path: '/auth',
+},
+{
+    name: 'Nouveau ? (Créer un compte)',
+    path: '/register',
+}];
+
 
 const ResponsiveAppBar = () => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -134,14 +143,15 @@ const ResponsiveAppBar = () => {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            <NavLink to={"/auth"}>{['Connection']}</NavLink>
-                            <NavLink to={"/register"}>{['Nouveau ? (Créer un compte)']}</NavLink>
-
+                            
                             {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography> 
+                                <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
+                                    <NavLink to={setting.path}>
+                                        <Typography textAlign="center">{setting.name}</Typography>
+                                    </NavLink>
                                 </MenuItem>
                             ))}
+
                         </Menu>
                     </Box>
 
