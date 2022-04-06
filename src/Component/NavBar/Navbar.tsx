@@ -26,7 +26,6 @@ const settings = [{
     path: '/register',
 }];
 
-
 const ResponsiveAppBar = () => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -143,7 +142,7 @@ const ResponsiveAppBar = () => {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            
+
                             {settings.map((setting) => (
                                 <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
                                     <NavLink to={setting.path}>
