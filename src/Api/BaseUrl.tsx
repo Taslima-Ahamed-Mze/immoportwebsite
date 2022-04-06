@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default axios.create({
-  baseURL: "http://api.immopport.cda.ve.manusien-ecolelamanu.fr/api/public/",
+  baseURL: "http://api.adif-info.fr/",
   headers: {
     "Content-type": "application/json",
   }

@@ -1,14 +1,20 @@
 import * as React from 'react';
-import {login} from '../../../Api/Auth';
+import { login } from '../../../Api/Auth';
+import { useNavigate } from 'react-router-dom';
 
 // import { FC } from 'react' // we ensure that we return valid JSX 
 const AuthForm = () => {
-
+    const navigate = useNavigate()
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const data = new FormData(e.currentTarget)
         if (data.get('email') && data.get('password')) {
             login(data.get('email') as string, data.get('password') as string)
+                .then(response => {
+                    
+                    navigate('/profile')
+
+                })
         }
     }
 

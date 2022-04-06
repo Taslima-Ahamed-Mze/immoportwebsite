@@ -1,23 +1,27 @@
-import { useEffect } from 'react';
-import { profile } from '../Api/Auth';
+import { useEffect, useState } from 'react';
+import { getProfile } from '../Api/Auth';
 
 const Profile = () => {
+    const [results, setResults] = useState([]);
+    const [token, setToken] = useState<string|null>(null)
+    
     useEffect(() => {
-        const token = localStorage.getItem('access_token')
-        profile(token as string)
-            .then(response => {
-                if (response.access_token) {
-                    profile(response.access_token as string)
-                        .then(response => {
-                            console.log(response)
-                        })
-                }
-            })
-    }, [])
+        
+        if (token != null) {
+            console.log("token : " + token)
+            getProfile(token)
+                .then(response => {
+                   // setResults(response.data)
+                    console.log("data: " + response)
+                })
+        }else{
+            setToken(localStorage.getItem('access_token'))
+        }
+    }, [token])
 
     return (
         <div className="profileWrapper">
-
+            <p>{results}</p>
         </div>
     )
 }
