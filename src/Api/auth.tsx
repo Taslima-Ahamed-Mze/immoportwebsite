@@ -40,10 +40,10 @@ export const getProfile = async (token: string) => {
             Authorization: `Bearer ${token}`
         }
     })
-        .then((response) => {
-            console.log(response.data)
-        })
-        .catch(error => {
-            console.error('Error', error)
-        })
+    .then((response) => {        
+        return response.data.client;
+    })
+    .catch(error => {
+        console.error('Error', error)
+    })
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getProfile } from '../Api/Auth';
+import { getProfile } from '../Api/auth';
 
 const Profile = () => {
     const [results, setResults] = useState([]);
