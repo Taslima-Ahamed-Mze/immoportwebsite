@@ -16,10 +16,10 @@ const AuthForm = () => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const data = new FormData(e.currentTarget)
-        console.log({
+        /* console.log({
             mail: data.get('email'),
             password: data.get('password')
-        })
+        }) */
         if(data.get('email') && data.get('password'))
         {
             login(data.get('email') as string,data.get('password') as string);
