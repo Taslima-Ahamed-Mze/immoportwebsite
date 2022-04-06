@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { login } from '../../../Api/Auth';
+import { login } from '../../../Api/auth';
 import { useNavigate } from 'react-router-dom';
 
 // import { FC } from 'react' // we ensure that we return valid JSX 
