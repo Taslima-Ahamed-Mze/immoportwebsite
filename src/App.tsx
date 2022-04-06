@@ -10,7 +10,7 @@ import ReactDOM from 'react-dom';
 import { StyledEngineProvider } from '@mui/material/styles';
 import Navbar from './Component/NavBar/Navbar';
 import AuthForm from './Component/NavBar/Auth/AuthForm';
-import { login } from './Api/auth';
+import { login } from './Api/Auth';
 import ResponsiveAppBar from "./Component/NavBar/Navbar";
 import RegisterForm from './Component/NavBar/Register/RegisterForm';
 import Profile from './Pages/Profile';
