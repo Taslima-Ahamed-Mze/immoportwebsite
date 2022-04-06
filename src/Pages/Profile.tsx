@@ -8,11 +8,24 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-
+import TextField from '@mui/material/TextField';
 
 const Profile = () => {
     const [token, setToken] = useState<string | null>(null)
     const [dataProfile, getDataProfile] = useState<Client>()
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+    const style = {
+        position: 'absolute' as 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 600,
+        bgcolor: 'background.paper',
+        boxShadow: 24,
+        p: 4,
+    };
 
     useEffect(() => {
 
@@ -47,9 +60,10 @@ const Profile = () => {
 
                 </CardContent>
                 <CardActions>
-                    <Button size="small"  onClick={handleOpen}>Modifier mon profil</Button>
+                    <Button size="small" onClick={handleOpen}>Modifier mon profil</Button>
                 </CardActions>
             </Card>
+
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -58,10 +72,47 @@ const Profile = () => {
             >
                 <Box sx={style}>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Text in a modal
+                        Modifier mon profil
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+                        <Box
+                            component="form"
+                            sx={{
+                                '& .MuiTextField-root': { m: 1, width: '55ch' },
+                            }}
+                            noValidate
+                            autoComplete="off"
+                        >
+                            {dataProfile && <TextField
+                                id="outlined-helperText"
+                                label="Helper text"
+                                defaultValue={dataProfile.lastname}
+                            />}
+                            <TextField
+                                id="outlined-helperText"
+                                label="Helper text"
+                                defaultValue="Default Value"
+                            />
+                            <TextField
+                                id="outlined-helperText"
+                                label="Helper text"
+                                defaultValue="Default Value"
+                            />
+                            <TextField
+                                id="outlined-number"
+                                label="Number"
+                                type="number"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
+                            <TextField
+                                id="outlined-password-input"
+                                label="Password"
+                                type="password"
+                                autoComplete="current-password"
+                            />
+                        </Box>
                     </Typography>
                 </Box>
             </Modal>
