@@ -14,7 +14,8 @@ const AuthForm = () => {
                     
                     navigate('/profile')
 
-                })
+                }
+            )
         }
     }
 

@@ -150,7 +150,6 @@ const ResponsiveAppBar = () => {
                                     </NavLink>
                                 </MenuItem>
                             ))}
-
                         </Menu>
                     </Box>
 
@@ -159,4 +158,5 @@ const ResponsiveAppBar = () => {
         </AppBar>
     );
 };
+
 export default ResponsiveAppBar;
