@@ -1,4 +1,7 @@
 import base from "./BaseUrl";
+import {
+    Navigate,
+} from "react-router-dom";
 
 export const login = async (mail: string, password: string) => {
     return base.get('auth', {
@@ -9,9 +12,8 @@ export const login = async (mail: string, password: string) => {
 
     }).then((response) => {
         if (response.data.access_token) {
-            console.log(response.data);
             localStorage.setItem("access_token", JSON.stringify(response.data.access_token));
-            return response.data;
+            return <Navigate to="/profile" />;
         }
 
     }).catch(error => {

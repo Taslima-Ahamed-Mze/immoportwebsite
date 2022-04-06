@@ -1,8 +1,9 @@
-import { login } from '../../../Api/Auth';
+import * as React from 'react';
+import {login} from '../../../Api/Auth';
 
 // import { FC } from 'react' // we ensure that we return valid JSX 
 const AuthForm = () => {
-    
+
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const data = new FormData(e.currentTarget)
