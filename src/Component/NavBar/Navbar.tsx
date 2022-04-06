@@ -134,11 +134,10 @@ const ResponsiveAppBar = () => {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            <NavLink to={"/auth"}>{['Connection']}</NavLink>
-                            <NavLink to={"/register"}>{['Nouveau ? (Créer un compte)']}</NavLink>
 
                             {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                                <MenuItem key={setting}
+                                component={NavLink} to="/auth">
                                     <Typography textAlign="center">{setting}</Typography> 
                                 </MenuItem>
                             ))}

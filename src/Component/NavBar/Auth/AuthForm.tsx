@@ -1,36 +1,22 @@
 import * as React from 'react';
 import {login} from '../../../Api/auth';
+import { useNavigate } from 'react-router-dom';
 
 // import { FC } from 'react' // we ensure that we return valid JSX 
 const AuthForm = () => {
-    // const [mail, setMail] = useState('');
-    // const handleMailValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     setMail(e.target.mail);
-    // };
-
-    // const [password, setPassword] = useState('');
-    // const handlePasswordValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     setPassword(e.target.password);
-    // };
-
+    const navigate = useNavigate()
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const data = new FormData(e.currentTarget)
-        /* console.log({
-            mail: data.get('email'),
-            password: data.get('password')
-        }) */
-        if(data.get('email') && data.get('password'))
-        {
-            login(data.get('email') as string,data.get('password') as string);
+        if (data.get('email') && data.get('password')) {
+            login(data.get('email') as string, data.get('password') as string)
+                .then(response => {
+                    
+                    navigate('/profile')
+
+                })
         }
-        
-
     }
-
-    // const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     console.log(e.target.value);
-    // };
 
     return (
         <div className="wrapper">

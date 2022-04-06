@@ -11,12 +11,12 @@ const RegisterForm = () => {
             <form onSubmit={handleSubmit}>
                 <fieldset>
                     <label>
-                        <p>Name</p>
-                        <input name="Name" required/>
+                        <p>Lastname</p>
+                        <input name="lastname" required/>
                     </label>
                     <label>
                         <p>Firstname</p>
-                        <input name="Firstname" required/>
+                        <input name="firstname" required/>
                     </label>
                     <label>
                         <p>Phone</p>
