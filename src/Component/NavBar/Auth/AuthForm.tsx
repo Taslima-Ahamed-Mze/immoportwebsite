@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { login } from '../../../Api/Auth';
 import { useNavigate } from 'react-router-dom';
+import { login } from '../../../Api/Auth';
 
 // import { FC } from 'react' // we ensure that we return valid JSX 
 const AuthForm = () => {

@@ -18,8 +18,20 @@ export const login = async (mail: string, password: string) => {
     });
 
 };
-export const register = async () => {
-
+export const register = async(lastname:string,firstname:string,mail:string,password:string,phone:string) => {
+    return base.post('auth',{
+        lastname,
+        firstname,
+        mail,
+        password,
+        phone
+    }    
+    ).then((response) => {
+        return response
+    }).catch(error => {
+        
+        console.log(error);   
+    });
 }
 export const getProfile = async (token: string) => {
     return base.get('client/profile', {
