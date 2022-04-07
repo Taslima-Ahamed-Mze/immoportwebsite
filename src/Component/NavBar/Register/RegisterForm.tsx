@@ -1,7 +1,7 @@
 import Navbar from '../../NavBar/Navbar';
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../../../Api/Auth';
+import { register } from '../../../Api/Auth';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -18,10 +18,24 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const RegisterForm = () => {
     const theme = createTheme();
+    const navigate = useNavigate()
+
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        
+        const data = new FormData(e.currentTarget)
+        if (data.get('email') && data.get('password') && data.get('firstname') && data.get('lastname') ){
+            register(data.get('lastname') as string, data.get('firstname') as string, data.get('email') as string, data.get('password') as string, data.get('phone') as string)
+                .then(response => {
+                    if(response === 201)
+                    {
+                        navigate('/auth');                    
+                    }else{
+                        console.log(response);
 
-        alert("Votre enregistrement a bien été pris en compte.")
+                    }
+                })
+        }
     }
 
     return (

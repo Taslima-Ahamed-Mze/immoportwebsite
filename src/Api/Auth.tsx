@@ -28,9 +28,12 @@ export const register = async (lastname: string, firstname: string, mail: string
         phone
     }
     ).then((response) => {
-        return response
+        //console.log('registered'+response.status);
+        
+        return response.status;
     }).catch(error => {
-        return error;
+        
+        return error.response.data;
     });
 }
 export const getProfile = async (token: string) => {
@@ -39,10 +42,10 @@ export const getProfile = async (token: string) => {
             Authorization: `Bearer ${token}`
         }
     })
-        .then((response) => {
-            return response.data.client
-        })
-        .catch(error => {
-            console.error('Error', error)
-        })
+    .then((response) => {        
+        return response.data.client;
+    })
+    .catch(error => {
+        console.error('Error', error)
+    })
 }
