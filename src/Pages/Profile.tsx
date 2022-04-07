@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { getProfile } from '../Api/Auth';
+import { getProfile } from '../Api/Client';
+import { updateProfile } from '../Api/Client';
 import Client from '../Interface/Client';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -9,11 +10,14 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
 import Navbar from '../Component/NavBar/Navbar';
+import Paper from '@mui/material/Paper';
 
 const Profile = () => {
     const [token, setToken] = useState<string | null>(null)
     const [dataProfile, getDataProfile] = useState<Client>()
+    const [newData, setNewData] = useState<Client | null>(null)
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -40,31 +44,69 @@ const Profile = () => {
         }
     }, [token])
 
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+
+        const data = new FormData(e.currentTarget)
+        
+
+        if (data.get('lastname') && data.get('firstname') && data.get('mail') && data.get('phone') && data.get('password'))
+        {
+            updateProfile(data.get('lastname') as string, data.get('firstname') as string, data.get('mail') as string, data.get('phone') as string, data.get('password') as string)
+                .then(response => {
+                    if (response.status == 200) {
+                        alert('Modification appliquée')
+                    }
+                    
+                })
+        }
+    }
+
     return (
         <div className="profileWrapper">
             <Navbar />
-            <Card sx={{ maxWidth: 275 }}>
-                <CardContent>
 
-                    {dataProfile &&
-                        <Typography sx={{ fontSize: 25 }} color="text.secondary" gutterBottom>
-                            {dataProfile.lastname}, {dataProfile.firstname}</Typography>}
+            <Paper
+                sx={{
+                    p: 5,
+                    margin: 'auto',
+                    maxWidth: 500,
+                    flexGrow: 1,
+                    backgroundColor: (theme) =>
+                        theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+                }}
+            >
+                <Grid container spacing={5}>
 
-                    {dataProfile &&
-                        <Typography color="text.secondary">
-                            {dataProfile.mail}
-                        </Typography>}
+                    <Grid item xs={12} sm container>
+                        <Grid item xs container direction="column" spacing={3}>
+                            <Grid item xs>
 
-                    {dataProfile &&
-                        <Typography>
-                            {dataProfile.phone}
-                        </Typography>}
+                                {dataProfile &&
+                                    <Typography gutterBottom variant="subtitle1" component="div">
+                                        {dataProfile.lastname}, {dataProfile.firstname}
+                                    </Typography>}
 
-                </CardContent>
-                <CardActions>
-                    <Button size="small" onClick={handleOpen}>Modifier mon profil</Button>
-                </CardActions>
-            </Card>
+                                {dataProfile &&
+                                    <Typography variant="body2" gutterBottom>
+                                        {dataProfile.mail}
+                                    </Typography>}
+
+                                {dataProfile &&
+                                    <Typography variant="body2" color="text.secondary">
+                                        {dataProfile.phone}
+                                    </Typography>}
+
+                            </Grid>
+                            <Grid item>
+                                <Button size="small" onClick={handleOpen}>Modifier mon profil</Button>
+                            </Grid>
+
+                        </Grid>
+                    </Grid>
+
+                </Grid>
+            </Paper>
 
             <Modal
                 open={open}
@@ -72,53 +114,70 @@ const Profile = () => {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                <Box sx={style} textAlign="center">
+                    <Typography id="modal-modal-title" variant="h6" component="h2" >
                         Modifier mon profil
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                         <Box
                             component="form"
                             sx={{
-                                '& .MuiTextField-root': { m: 1, width: '55ch' },
+                                '& .MuiTextField-root': { m: 1, width: '45ch' },
                             }}
                             noValidate
                             autoComplete="off"
+                            onSubmit={handleSubmit}
                         >
                             {dataProfile && <TextField
                                 id="outlined-helperText"
-                                label="Helper text"
+                                label="Nom"
+                                name="lastname"
                                 defaultValue={dataProfile.lastname}
                             />}
-                            <TextField
-                                id="outlined-helperText"
-                                label="Helper text"
-                                defaultValue="Default Value"
-                            />
-                            <TextField
-                                id="outlined-helperText"
-                                label="Helper text"
-                                defaultValue="Default Value"
-                            />
+                            {dataProfile &&
+                                <TextField
+                                    id="outlined-helperText"
+                                    label="Prénom"
+                                    name="firstname"
+                                    defaultValue={dataProfile.firstname}
+                                />}
+                            {dataProfile &&
+                                <TextField
+                                    id="outlined-helperText"
+                                    label="Mail"
+                                    name="mail"
+                                    defaultValue={dataProfile.mail}
+                                />}
                             <TextField
                                 id="outlined-number"
-                                label="Number"
+                                label="Téléphone"
                                 type="number"
+                                name="phone"
+                                InputProps={{ inputProps: { min: 0, max: 9 } }}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
                             />
                             <TextField
-                                id="outlined-password-input"
+                                id="outlined-password-text"
                                 label="Password"
                                 type="password"
-                                autoComplete="current-password"
+                                name="password"
                             />
+
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                sx={{ mt: 3, mb: 2 }}
+                            >
+                                Enregistrer
+                            </Button>
                         </Box>
                     </Typography>
                 </Box>
             </Modal>
-        </div>
+        </div >
     )
 }
 

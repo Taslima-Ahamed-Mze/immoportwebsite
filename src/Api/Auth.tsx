@@ -28,24 +28,10 @@ export const register = async (lastname: string, firstname: string, mail: string
         phone
     }
     ).then((response) => {
-        //console.log('registered'+response.status);
-        
         return response.status;
     }).catch(error => {
-        
+
         return error.response.data;
     });
 }
-export const getProfile = async (token: string) => {
-    return customAxios.get('client/profile', {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    })
-    .then((response) => {        
-        return response.data.client;
-    })
-    .catch(error => {
-        console.error('Error', error)
-    })
-}
+
