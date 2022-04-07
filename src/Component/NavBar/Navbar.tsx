@@ -11,14 +11,19 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import { NavLink, Link } from 'react-router-dom';
-import AuthForm from './Auth/AuthForm';
-import RegisterForm from './Register/RegisterForm';
+import { NavLink } from 'react-router-dom';
 
 const pages = ['Acheter', 'Vendre', 'Louer', 'Bureaux & Commerces'];
-const settings = ['Connexion', 'Nouveau ? (Créer un compte)'];
+const settings = [{
+    name: 'Connexion',
+    path: '/auth',
+},
+{
+    name: 'Nouveau ? (Créer un compte)',
+    path: '/register',
+}];
 
-const ResponsiveAppBar = () => {
+const Navbar = () => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -136,11 +141,13 @@ const ResponsiveAppBar = () => {
                         >
 
                             {settings.map((setting) => (
-                                <MenuItem key={setting}
-                                component={NavLink} to="/auth">
-                                    <Typography textAlign="center">{setting}</Typography> 
+                                <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
+                                    <NavLink to={setting.path}>
+                                        <Typography textAlign="center">{setting.name}</Typography>
+                                    </NavLink>
                                 </MenuItem>
                             ))}
+
                         </Menu>
                     </Box>
 
@@ -149,4 +156,4 @@ const ResponsiveAppBar = () => {
         </AppBar>
     );
 };
-export default ResponsiveAppBar;
+export default Navbar;
