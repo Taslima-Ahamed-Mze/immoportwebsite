@@ -11,10 +11,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import { NavLink, Link } from 'react-router-dom';
-import AuthForm from './Auth/AuthForm';
-import RegisterForm from './Register/RegisterForm';
-import { Settings } from '@mui/icons-material';
+import { NavLink } from 'react-router-dom';
 
 const pages = ['Acheter', 'Vendre', 'Louer', 'Bureaux & Commerces'];
 const settings = [{
@@ -26,7 +23,7 @@ const settings = [{
     path: '/register',
 }];
 
-const ResponsiveAppBar = () => {
+const Navbar = () => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -159,4 +156,4 @@ const ResponsiveAppBar = () => {
         </AppBar>
     );
 };
-export default ResponsiveAppBar;
+export default Navbar;
