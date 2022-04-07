@@ -6,6 +6,8 @@ import {
 import './App.css';
 import Navbar from './Component/NavBar/Navbar';
 import AuthForm from './Component/NavBar/Auth/AuthForm';
+import {register} from './Api/Auth';
+import ResponsiveAppBar from "./Component/NavBar/Navbar";
 import RegisterForm from './Component/NavBar/Register/RegisterForm';
 import Profile from './Pages/Profile';
 
