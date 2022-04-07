@@ -1,7 +1,7 @@
-import base from "./BaseUrl";
+import customAxios from "./BaseUrl";
 
 export const login = async (mail: string, password: string) => {
-    return base.get('auth', {
+    return customAxios.get('auth', {
         params: {
             mail,
             password
@@ -11,30 +11,30 @@ export const login = async (mail: string, password: string) => {
         if (response.data.access_token) {
             console.log(response.data);
             localStorage.setItem("access_token", response.data.access_token);
-            return response.data;
+            return response;
         }
     }).catch(error => {
-        console.log(error.response.data.message);
+        return error.response;
     });
 
 };
-export const register = async(lastname:string,firstname:string,mail:string,password:string,phone:string) => {
-    return base.post('auth',{
+
+export const register = async (lastname: string, firstname: string, mail: string, password: string, phone: string) => {
+    return customAxios.post('auth', {
         lastname,
         firstname,
         mail,
         password,
         phone
-    }    
+    }
     ).then((response) => {
         return response
     }).catch(error => {
-        
-        console.log(error);   
+        return error;
     });
 }
 export const getProfile = async (token: string) => {
-    return base.get('client/profile', {
+    return customAxios.get('client/profile', {
         headers: {
             Authorization: `Bearer ${token}`
         }
