@@ -147,7 +147,6 @@ const Navbar = () => {
                                     </NavLink>
                                 </MenuItem>
                             ))}
-
                         </Menu>
                     </Box>
 
