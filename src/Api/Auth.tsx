@@ -11,28 +11,28 @@ export const login = async (mail: string, password: string) => {
         if (response.data.access_token) {
             console.log(response.data);
             localStorage.setItem("access_token", response.data.access_token);
-            return response.data;
+            return response.status;
         }
     }).catch(error => {
-        console.log(error.response.data.message);
+        return error.response.data.message;
     });
 
 };
-export const register = async(lastname:string,firstname:string,email:string,password:string,phone:string) => {
+export const register = async(lastname:string,firstname:string,mail:string,password:string,phone:string) => {
     return base.post('auth',{
         lastname,
         firstname,
-        email,
+        mail,
         password,
         phone
     }    
     ).then((response) => {
-        console.log('registered');
+        //console.log('registered'+response.status);
         
-        return response
+        return response.status;
     }).catch(error => {
         
-        console.log(error);   
+        return error.response.data;
     });
 }
 export const getProfile = async (token: string) => {

@@ -26,10 +26,17 @@ const AuthForm = () => {
         if (data.get('email') && data.get('password')) {
             login(data.get('email') as string, data.get('password') as string)
                 .then(response => {
+                    if(response === 200)
+                    {
+                        navigate('/profile')
+                    }else{
+                        console.log('Error '+response);
 
-                    navigate('/profile')
+                    }
 
-                })
+                }).catch(error => {
+                    console.log(error);
+                });
         }
     }
 
