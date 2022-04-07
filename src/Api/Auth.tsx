@@ -14,7 +14,6 @@ export const login = async (mail: string, password: string) => {
             return response.data;
         }
     }).catch(error => {
-
         console.log(error.response.data.message);
     });
 
@@ -41,7 +40,7 @@ export const getProfile = async (token: string) => {
         }
     })
         .then((response) => {
-            console.log(response.data)
+            return response.data.client
         })
         .catch(error => {
             console.error('Error', error)
