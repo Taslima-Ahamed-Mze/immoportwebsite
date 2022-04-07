@@ -18,15 +18,17 @@ export const login = async (mail: string, password: string) => {
     });
 
 };
-export const register = async(lastname:string,firstname:string,mail:string,password:string,phone:string) => {
+export const register = async(lastname:string,firstname:string,email:string,password:string,phone:string) => {
     return base.post('auth',{
         lastname,
         firstname,
-        mail,
+        email,
         password,
         phone
     }    
     ).then((response) => {
+        console.log('registered');
+        
         return response
     }).catch(error => {
         
