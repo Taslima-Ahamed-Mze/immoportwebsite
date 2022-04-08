@@ -1,18 +1,19 @@
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
+import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
+// Navbar and profile settings links
 const pages = ['Acheter', 'Vendre', 'Louer', 'Bureaux & Commerces'];
 const settings = [{
     name: 'Connexion',
@@ -22,6 +23,9 @@ const settings = [{
     name: 'Nouveau ? (Créer un compte)',
     path: '/register',
 }];
+
+// Add specific styles to items
+
 
 const Navbar = () => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -48,14 +52,12 @@ const Navbar = () => {
                 <Toolbar disableGutters>
 
                     {/*NAVBAR - version responsive*/}
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="div"
-                        sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
-                    >
-                        LOGO
-                    </Typography>
+
+                    <Avatar 
+                        alt="Logo ImmOpport" 
+                        src="../public/Images/Logo_ImmOpport.png"
+                        sx={{ borderRadius: 2, width: 56, height: 56 }} 
+                    />
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
@@ -155,4 +157,5 @@ const Navbar = () => {
         </AppBar>
     );
 };
+
 export default Navbar;

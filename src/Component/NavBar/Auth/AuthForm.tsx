@@ -1,26 +1,23 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import * as React from 'react';
 import { login } from '../../../Api/Auth';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
+import Link from '@mui/material/Link';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { red } from '@mui/material/colors';
 import Navbar from '../../NavBar/Navbar';
+import Paper from '@mui/material/Paper';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 
 // import { FC } from 'react' // we ensure that we return valid JSX 
 const AuthForm = () => {
-    const theme = createTheme();
-    const color = red[500];
     const [inputError, setInputError] = useState<string | null>(null)
     const [formError, setFormError] = useState<string | null>(null)
     const navigate = useNavigate()
@@ -41,14 +38,13 @@ const AuthForm = () => {
                 .catch(error => {
                     console.log(error)
                 }
-                )
+            )
         }
     }
 
     return (
         <div className="loginWrapper">
             <Navbar />
-            <ThemeProvider theme={theme}>
                 <Grid container component="main" sx={{ height: '100vh' }}>
                     <CssBaseline />
                     <Grid
@@ -81,7 +77,7 @@ const AuthForm = () => {
                             <Typography component="h1" variant="h5">
                                 Sign in
                             </Typography>
-                            <Typography component="h3" my={2} color={color}>
+                            <Typography component="h3" my={2}>
                                 {formError}
                             </Typography>
                             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
@@ -134,8 +130,8 @@ const AuthForm = () => {
                         </Box>
                     </Grid>
                 </Grid>
-            </ThemeProvider>
         </div>
     )
 }
+
 export default AuthForm
