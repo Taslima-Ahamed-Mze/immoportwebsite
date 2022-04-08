@@ -12,18 +12,21 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { NavLink } from 'react-router-dom';
-
-const pages = ['Acheter', 'Vendre', 'Louer', 'Bureaux & Commerces'];
-const settings = [{
-    name: 'Connexion',
-    path: '/auth',
-},
-{
-    name: 'Nouveau ? (Créer un compte)',
-    path: '/register',
-}];
+import ClientContext from '../../Contexts/ClientContext';
 
 const Navbar = () => {
+
+    const clientContext = React.useContext(ClientContext)
+
+    const pages = ['Acheter', 'Vendre', 'Louer', 'Bureaux & Commerces'];
+    const settings = [{
+        name: 'Connexion',
+        path: '/auth',
+    },
+    {
+        name: 'Nouveau ? (Créer un compte)',
+        path: '/register',
+    }];
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -47,6 +50,9 @@ const Navbar = () => {
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
 
+                    {/* {!clientContext.isLoggedIn && <button className="login" onClick={loginHandler}>Login</button>}
+                    {clientContext.isLoggedIn && (<button className="login" onClick={logoutHandler}>Logout</button>)} */}
+
                     {/*NAVBAR - version responsive*/}
                     <Typography
                         variant="h6"
@@ -54,7 +60,6 @@ const Navbar = () => {
                         component="div"
                         sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
                     >
-                        LOGO
                     </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -119,9 +124,9 @@ const Navbar = () => {
 
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                            </IconButton>
+                            <MenuItem onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+
+                            </MenuItem>
                         </Tooltip>
                         <Menu
                             sx={{ mt: '45px' }}
@@ -139,7 +144,6 @@ const Navbar = () => {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-
                             {settings.map((setting) => (
                                 <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
                                     <NavLink to={setting.path} style={{ textDecoration: 'none' }}>

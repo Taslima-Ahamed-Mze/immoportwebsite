@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, createContext } from 'react';
 import { getProfile } from '../Api/Client';
 import { updateProfile } from '../Api/Client';
 import Client from '../Interface/Client';
@@ -8,13 +8,14 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
-import Navbar from '../Component/NavBar/Navbar';
 import Paper from '@mui/material/Paper';
 
 const Profile = () => {
+
     const [token, setToken] = useState<string | null>(null)
-    const [dataProfile, getDataProfile] = useState<Client>()
-    const [newData, setNewData] = useState<Client | null>(null)
+    const [dataProfile, setDataProfile] = useState<Client>()
+    const [newData, setNewData] = useState<Client>()
+
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -34,35 +35,34 @@ const Profile = () => {
         if (token != null) {
             getProfile(token)
                 .then(response => {
-                    getDataProfile(response)
+                    setDataProfile(response)
                 })
         } else {
             setToken(localStorage.getItem('access_token'))
         }
     }, [token])
 
+    // updateForm submit
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-
         const data = new FormData(e.currentTarget)
-        
-
-        if (data.get('lastname') && data.get('firstname') && data.get('mail') && data.get('phone') && data.get('password'))
-        {
+       console.log(data.get('lastname'))
+        if (data.get('lastname') && data.get('firstname') && data.get('mail') && data.get('phone') && data.get('password')) {
+            console.log(data.get('lastname'))
             updateProfile(data.get('lastname') as string, data.get('firstname') as string, data.get('mail') as string, data.get('phone') as string, data.get('password') as string)
                 .then(response => {
+                    console.log(response)
                     if (response.status == 200) {
-                        alert('Modification appliquée')
+                        setNewData(response.data)
                     }
-                    
+
                 })
         }
     }
 
     return (
         <div className="profileWrapper">
-            <Navbar />
-
+            
             <Paper
                 sx={{
                     p: 5,

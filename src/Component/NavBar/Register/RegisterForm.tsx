@@ -1,4 +1,3 @@
-import Navbar from '../../NavBar/Navbar';
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { register } from '../../../Api/Auth';
@@ -39,7 +38,7 @@ const RegisterForm = () => {
 
     return (
         <div className="registerForm">
-            <Navbar />
+            
             <ThemeProvider theme={theme}>
                 <Grid container component="main" sx={{ height: '100vh' }}>
                     <CssBaseline />

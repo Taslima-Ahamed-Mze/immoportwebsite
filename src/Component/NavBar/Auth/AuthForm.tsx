@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../../../Api/Auth';
+import Navbar from '../../NavBar/Navbar';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,18 +16,21 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
-import Navbar from '../../NavBar/Navbar';
 
-// import { FC } from 'react' // we ensure that we return valid JSX 
+
 const AuthForm = () => {
+
     const theme = createTheme();
     const color = red[500];
     const [inputError, setInputError] = useState<string | null>(null)
     const [formError, setFormError] = useState<string | null>(null)
     const navigate = useNavigate()
+
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+
         const data = new FormData(e.currentTarget)
+
         if (data.get('email') && data.get('password')) {
             login(data.get('email') as string, data.get('password') as string)
                 .then(response => {
@@ -47,7 +51,7 @@ const AuthForm = () => {
 
     return (
         <div className="loginWrapper">
-            <Navbar />
+
             <ThemeProvider theme={theme}>
                 <Grid container component="main" sx={{ height: '100vh' }}>
                     <CssBaseline />
