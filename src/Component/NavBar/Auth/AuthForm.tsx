@@ -27,7 +27,7 @@ const AuthForm = () => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const data = new FormData(e.currentTarget)
-        if (data.get('email') && data.get('password')) {
+        if (data.get('email') || data.get('password')) {
             login(data.get('email') as string, data.get('password') as string)
                 .then(response => {
                     if (response.status == 200) {
@@ -42,6 +42,8 @@ const AuthForm = () => {
                     console.log(error)
                 }
                 )
+        }else{
+            setFormError('Tous les champs sont obligatoires');
         }
     }
 
