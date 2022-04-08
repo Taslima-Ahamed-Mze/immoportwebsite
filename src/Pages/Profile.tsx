@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
+import Navbar from '../Component/NavBar/Navbar';
 
 const Profile = () => {
     const [token, setToken] = useState<string | null>(null)
@@ -41,6 +42,7 @@ const Profile = () => {
 
     return (
         <div className="profileWrapper">
+            <Navbar />
             <Card sx={{ maxWidth: 275 }}>
                 <CardContent>
 

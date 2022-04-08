@@ -24,10 +24,16 @@ const RegisterForm = () => {
         e.preventDefault()
         
         const data = new FormData(e.currentTarget)
-        if (data.get('email') && data.get('password') && data.get('firtname') && data.get('lastname') ){
+        if (data.get('email') && data.get('password') && data.get('firstname') && data.get('lastname') ){
             register(data.get('lastname') as string, data.get('firstname') as string, data.get('email') as string, data.get('password') as string, data.get('phone') as string)
                 .then(response => {
-                    navigate('/auth');                    
+                    if(response === 201)
+                    {
+                        navigate('/auth');                    
+                    }else{
+                        console.log(response);
+
+                    }
                 })
         }
     }

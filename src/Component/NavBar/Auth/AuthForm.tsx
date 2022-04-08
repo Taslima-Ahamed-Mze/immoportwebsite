@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../../../Api/Auth';
 import Avatar from '@mui/material/Avatar';
@@ -14,11 +14,15 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { red } from '@mui/material/colors';
 import Navbar from '../../NavBar/Navbar';
 
 // import { FC } from 'react' // we ensure that we return valid JSX 
 const AuthForm = () => {
     const theme = createTheme();
+    const color = red[500];
+    const [inputError, setInputError] = useState<string | null>(null)
+    const [formError, setFormError] = useState<string | null>(null)
     const navigate = useNavigate()
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -26,11 +30,18 @@ const AuthForm = () => {
         if (data.get('email') && data.get('password')) {
             login(data.get('email') as string, data.get('password') as string)
                 .then(response => {
-
-                    navigate('/profile')
-
+                    if (response.status == 200) {
+                        navigate('/profile')
+                    } else if (response.status == 401) {
+                        setFormError(response.data.message)
+                    } else if (response.status == 422) {
+                        setInputError(response.data.mail)
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
                 }
-            )
+                )
         }
     }
 
@@ -70,6 +81,9 @@ const AuthForm = () => {
                             <Typography component="h1" variant="h5">
                                 Sign in
                             </Typography>
+                            <Typography component="h3" my={2} color={color}>
+                                {formError}
+                            </Typography>
                             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
                                 <TextField
                                     margin="normal"
@@ -80,6 +94,7 @@ const AuthForm = () => {
                                     name="email"
                                     autoComplete="email"
                                     autoFocus
+                                    helperText={inputError}
                                 />
                                 <TextField
                                     margin="normal"

@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Routes, Route } from 'react-router-dom';
-import './App.css';
-import Navbar from './Component/NavBar/Navbar';
-import AuthForm from './Component/NavBar/Auth/AuthForm';
 import {register} from './Api/Auth';
+import './App.css';
+import AuthForm from './Component/NavBar/Auth/AuthForm';
+import Navbar from './Component/NavBar/Navbar';
 import ResponsiveAppBar from './Component/NavBar/Navbar';
 import RegisterForm from './Component/NavBar/Register/RegisterForm';
 import Profile from './Pages/Profile';

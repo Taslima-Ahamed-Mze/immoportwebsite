@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { NavLink } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -11,7 +12,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import { NavLink } from 'react-router-dom';
 
 const pages = ['Acheter', 'Vendre', 'Louer', 'Bureaux & Commerces'];
 const settings = [{
@@ -142,7 +142,7 @@ const Navbar = () => {
 
                             {settings.map((setting) => (
                                 <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
-                                    <NavLink to={setting.path}>
+                                    <NavLink to={setting.path} style={{ textDecoration: 'none' }}>
                                         <Typography textAlign="center">{setting.name}</Typography>
                                     </NavLink>
                                 </MenuItem>
