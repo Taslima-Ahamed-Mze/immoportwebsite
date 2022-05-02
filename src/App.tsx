@@ -12,19 +12,15 @@ function App() {
 
   return (
 
-
-
     <div className="App">
       <Navbar />
       {/* Routes listing*/}
       <Routes>
-        <Route path="/" element={<Navbar />} />
         <Route path="/auth" element={<AuthForm />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/profile" element={<Profile />} />
       </Routes>
     </div>
-
 
   );
 }

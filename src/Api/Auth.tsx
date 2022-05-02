@@ -1,8 +1,5 @@
 import customAxios from "./BaseUrl";
 
-
-
-
 export const login = async (mail: string, password: string) => {
     return customAxios.get('auth', {
         params: {
