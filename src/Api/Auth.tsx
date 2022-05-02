@@ -1,5 +1,8 @@
 import customAxios from "./BaseUrl";
 
+
+
+
 export const login = async (mail: string, password: string) => {
     return customAxios.get('auth', {
         params: {
@@ -30,11 +33,24 @@ export const register = async (lastname: string, firstname: string, mail: string
         password,
         phone
     }
-    ).then((response) => {
-        return response.status;
-    }).catch(error => {
-
-        return error.response.data;
+    ).then((response) => {        
+        return response;
+    }).catch(error => {        
+        return error.response;
     });
 }
+export const getProfile = async (token: string) => {
+    return customAxios.get('client/profile', {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+    .then((response) => {        
+        return response.data.client;
+    })
+    .catch(error => {
+        console.error('Error', error)
+    })
+}
+
 

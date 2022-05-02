@@ -1,3 +1,6 @@
+import Navbar from '../../NavBar/Navbar';
+import { useState } from 'react';
+
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { register } from '../../../Api/Auth';
@@ -11,28 +14,48 @@ import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import { red } from '@mui/material/colors';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Register from '../../../Interface/Register';
+import { Phone } from '@mui/icons-material';
 
 const RegisterForm = () => {
     const theme = createTheme();
     const navigate = useNavigate()
+    const color = red[500];
+    const [inputError, setInputError] = useState<Register | null>(null)
+    const [formError, setFormError] = useState<string | null>(null)
+
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
         const data = new FormData(e.currentTarget)
-        if (data.get('email') && data.get('password') && data.get('firstname') && data.get('lastname')) {
+        if (data.get('email') || data.get('lastname')|| data.get('firstname')|| data.get('phone')|| data.get('password')){
             register(data.get('lastname') as string, data.get('firstname') as string, data.get('email') as string, data.get('password') as string, data.get('phone') as string)
                 .then(response => {
-                    if (response == 201) {
-                        navigate('/auth');
-                    } else {
-                        console.log(response);
-
+                    
+                    if(response.status == 201)
+                    {
+                        navigate('/auth');                    
+                    }else if(response.status == 422){
+                        const {password ,mail,phone,firstname,lastname} : Register = response.data
+                        const registerInterface : Register = {
+                            password: password,
+                            mail : mail,
+                            firstname: firstname,
+                            phone : phone,
+                            lastname : lastname
+                        }
+                        setInputError(registerInterface)
+                        setFormError(null);
+                           
                     }
                 })
+        }else{
+            setFormError('Tous les champs sont obligatoires');
         }
     }
 
@@ -72,6 +95,9 @@ const RegisterForm = () => {
                             <Typography component="h1" variant="h5">
                                 Sign up
                             </Typography>
+                            <Typography component="h3" my={2} color={color}>
+                                {formError}
+                            </Typography>
                             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
                                 <TextField
                                     margin="normal"
@@ -81,6 +107,10 @@ const RegisterForm = () => {
                                     label="lastname"
                                     name="lastname"
                                     autoFocus
+                                    helperText={inputError?.lastname}
+                                    error={Boolean(inputError?.lastname)}
+
+
                                 />
                                 <TextField
                                     margin="normal"
@@ -90,6 +120,10 @@ const RegisterForm = () => {
                                     label="firstname"
                                     name="firstname"
                                     autoFocus
+                                    helperText={inputError?.firstname}
+                                    error={Boolean(inputError?.firstname)}
+
+
                                 />
                                 <TextField
                                     margin="normal"
@@ -99,6 +133,10 @@ const RegisterForm = () => {
                                     label="Email Address"
                                     name="email"
                                     autoFocus
+                                    helperText={inputError?.mail}
+                                    error={Boolean(inputError?.mail)}
+
+
                                 />
                                 <TextField
                                     margin="normal"
@@ -107,6 +145,10 @@ const RegisterForm = () => {
                                     label="phone"
                                     name="phone"
                                     autoFocus
+                                    helperText={inputError?.phone}
+                                    error={Boolean(inputError?.phone)}
+
+
                                 />
                                 <TextField
                                     margin="normal"
@@ -117,6 +159,10 @@ const RegisterForm = () => {
                                     type="password"
                                     id="password"
                                     autoComplete="current-password"
+                                    helperText={inputError?.password}
+                                    error={Boolean(inputError?.password)}
+
+
                                 />
                                 <FormControlLabel
                                     control={<Checkbox value="remember" color="primary" />}
