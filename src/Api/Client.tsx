@@ -10,17 +10,18 @@ export const getProfile = async (token: string) => {
             return response.data.client;
         })
         .catch(error => {
-            console.error('Error', error)
+            return error.response.data
         })
 }
 
-export const updateProfile = async (lastname: string, firstname: string, mail: string, password: string, phone: string) => {
+export const updateProfile = async (token: string, lastname: string, firstname: string, mail: string, phone: string, password: string) => {
     return customAxios.put('client/profile', {
+        authorization: `Bearer ${token}`,
         lastname,
         firstname,
         mail,
-        password,
-        phone
+        phone,
+        password
     })
         .then((response) => {
             return response.data

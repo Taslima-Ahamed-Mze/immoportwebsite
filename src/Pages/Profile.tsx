@@ -43,26 +43,32 @@ const Profile = () => {
     }, [token])
 
     // updateForm submit
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        const data = new FormData(e.currentTarget)
-       console.log(data.get('lastname'))
-        if (data.get('lastname') && data.get('firstname') && data.get('mail') && data.get('phone') && data.get('password')) {
-            console.log(data.get('lastname'))
-            updateProfile(data.get('lastname') as string, data.get('firstname') as string, data.get('mail') as string, data.get('phone') as string, data.get('password') as string)
-                .then(response => {
-                    console.log(response)
-                    if (response.status == 200) {
-                        setNewData(response.data)
-                    }
+        const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+            e.preventDefault()
 
-                })
+            const data = new FormData(e.currentTarget)
+            if (token != null) {
+                if (data.get('lastname') && data.get('firstname') && data.get('mail') && data.get('phone') && data.get('password')) {
+
+                    updateProfile(token as string, data.get('lastname') as string, data.get('firstname') as string, data.get('mail') as string, data.get('phone') as string, data.get('password') as string)
+                        .then(response => {
+                            console.log(response)
+                            if (response.status == 200) {
+                                setDataProfile(response.data)
+                                alert(response.data.message)
+                            } else {
+                                console.log('error')
+                            }
+                        })
+                }
+            } else {
+                setToken(localStorage.getItem('access_token'))
+            }
         }
-    }
 
     return (
         <div className="profileWrapper">
-            
+
             <Paper
                 sx={{
                     p: 5,
@@ -145,16 +151,18 @@ const Profile = () => {
                                     name="mail"
                                     defaultValue={dataProfile.mail}
                                 />}
-                            <TextField
-                                id="outlined-number"
-                                label="Téléphone"
-                                type="number"
-                                name="phone"
-                                InputProps={{ inputProps: { min: 0, max: 9 } }}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                            />
+                            {dataProfile &&
+                                <TextField
+                                    id="outlined-number"
+                                    label="Téléphone"
+                                    type="number"
+                                    name="phone"
+                                    defaultValue={dataProfile.phone}
+                                    InputProps={{ inputProps: { min: 0, max: 9 } }}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />}
                             <TextField
                                 id="outlined-password-text"
                                 label="Password"
