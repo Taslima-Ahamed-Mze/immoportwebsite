@@ -1,6 +1,4 @@
-import Navbar from '../../NavBar/Navbar';
 import { useState } from 'react';
-
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { register } from '../../../Api/Auth';
@@ -19,7 +17,6 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Register from '../../../Interface/Register';
-import { Phone } from '@mui/icons-material';
 
 const RegisterForm = () => {
     const theme = createTheme();
@@ -33,35 +30,34 @@ const RegisterForm = () => {
         e.preventDefault()
 
         const data = new FormData(e.currentTarget)
-        if (data.get('email') || data.get('lastname')|| data.get('firstname')|| data.get('phone')|| data.get('password')){
+        if (data.get('email') || data.get('lastname') || data.get('firstname') || data.get('phone') || data.get('password')) {
             register(data.get('lastname') as string, data.get('firstname') as string, data.get('email') as string, data.get('password') as string, data.get('phone') as string)
                 .then(response => {
-                    
-                    if(response.status == 201)
-                    {
-                        navigate('/auth');                    
-                    }else if(response.status == 422){
-                        const {password ,mail,phone,firstname,lastname} : Register = response.data
-                        const registerInterface : Register = {
+
+                    if (response.status == 201) {
+                        navigate('/auth');
+                    } else if (response.status == 422) {
+                        const { password, mail, phone, firstname, lastname }: Register = response.data
+                        const registerInterface: Register = {
                             password: password,
-                            mail : mail,
+                            mail: mail,
                             firstname: firstname,
-                            phone : phone,
-                            lastname : lastname
+                            phone: phone,
+                            lastname: lastname
                         }
                         setInputError(registerInterface)
                         setFormError(null);
-                           
+
                     }
                 })
-        }else{
+        } else {
             setFormError('Tous les champs sont obligatoires');
         }
     }
 
     return (
         <div className="registerForm">
-            
+
             <ThemeProvider theme={theme}>
                 <Grid container component="main" sx={{ height: '100vh' }}>
                     <CssBaseline />
