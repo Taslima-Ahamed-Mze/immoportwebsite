@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
@@ -25,8 +25,6 @@ const settings = [{
 }];
 
 // Add specific styles to items
-
-
 const Navbar = () => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -37,11 +35,9 @@ const Navbar = () => {
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
     };
-
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
-
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
@@ -53,11 +49,13 @@ const Navbar = () => {
 
                     {/*NAVBAR - version responsive*/}
 
-                    <Avatar 
-                        alt="Logo ImmOpport" 
-                        src="../public/Images/Logo_ImmOpport.png"
-                        sx={{ borderRadius: 2, width: 56, height: 56 }} 
-                    />
+                    <Link to={'/'}>
+                        <Avatar 
+                            src="./Images/logo_immopport.png" 
+                            alt="Logo ImmOpport"
+                            sx={{ borderRadius: 2, width: 80, height: 60 }}  
+                        />  
+                    </Link>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
