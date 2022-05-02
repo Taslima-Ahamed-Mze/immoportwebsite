@@ -108,6 +108,8 @@ const RegisterForm = () => {
                                     name="lastname"
                                     autoFocus
                                     helperText={inputError?.lastname}
+                                    error={Boolean(inputError?.lastname)}
+
 
                                 />
                                 <TextField
@@ -119,6 +121,8 @@ const RegisterForm = () => {
                                     name="firstname"
                                     autoFocus
                                     helperText={inputError?.firstname}
+                                    error={Boolean(inputError?.firstname)}
+
 
                                 />
                                 <TextField
@@ -130,6 +134,8 @@ const RegisterForm = () => {
                                     name="email"
                                     autoFocus
                                     helperText={inputError?.mail}
+                                    error={Boolean(inputError?.mail)}
+
 
                                 />
                                 <TextField
@@ -140,6 +146,8 @@ const RegisterForm = () => {
                                     name="phone"
                                     autoFocus
                                     helperText={inputError?.phone}
+                                    error={Boolean(inputError?.phone)}
+
 
                                 />
                                 <TextField
@@ -152,6 +160,8 @@ const RegisterForm = () => {
                                     id="password"
                                     autoComplete="current-password"
                                     helperText={inputError?.password}
+                                    error={Boolean(inputError?.password)}
+
 
                                 />
                                 <FormControlLabel

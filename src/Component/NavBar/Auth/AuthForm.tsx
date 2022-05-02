@@ -13,15 +13,21 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider} from '@mui/material/styles';
+
+
 import { red } from '@mui/material/colors';
 import Navbar from '../../NavBar/Navbar';
+import Login from '../../../Interface/Login';
+import { ErrorSharp } from '@mui/icons-material';
+
 
 // import { FC } from 'react' // we ensure that we return valid JSX 
 const AuthForm = () => {
+    
     const theme = createTheme();
     const color = red[500];
-    const [inputError, setInputError] = useState<string | null>(null)
+    const [inputError, setInputError] = useState<Login | null>(null)
     const [formError, setFormError] = useState<string | null>(null)
     const navigate = useNavigate()
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -35,7 +41,14 @@ const AuthForm = () => {
                     } else if (response.status == 401) {
                         setFormError(response.data.message)
                     } else if (response.status == 422) {
-                        setInputError(response.data.mail)
+
+                        const {password, mail} : Login = response.data
+                        const loginInterface : Login = {
+                            password: password,
+                            mail: mail,
+                        }
+                        setInputError(loginInterface)
+                        setFormError(null);
                     }
                 })
                 .catch(error => {
@@ -88,6 +101,7 @@ const AuthForm = () => {
                             </Typography>
                             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
                                 <TextField
+                                    
                                     margin="normal"
                                     required
                                     fullWidth
@@ -96,7 +110,8 @@ const AuthForm = () => {
                                     name="email"
                                     autoComplete="email"
                                     autoFocus
-                                    helperText={inputError}
+                                    helperText={inputError?.mail}
+                                    error={Boolean(inputError?.mail)}
                                 />
                                 <TextField
                                     margin="normal"
@@ -107,6 +122,10 @@ const AuthForm = () => {
                                     type="password"
                                     id="password"
                                     autoComplete="current-password"
+                                    helperText={inputError?.password}
+                                    error={Boolean(inputError?.password)}
+
+
                                 />
                                 <FormControlLabel
                                     control={<Checkbox value="remember" color="primary" />}
