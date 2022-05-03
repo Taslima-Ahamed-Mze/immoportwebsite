@@ -6,7 +6,7 @@ import RegisterForm from './Component/NavBar/Register/RegisterForm';
 import Profile from './Pages/Profile';
 import Navbar from './Component/NavBar/Navbar';
 import ClientContext from './Contexts/ClientContext';
-
+import Properties from './Component/NavBar/Property';
 
 function App() {
 
@@ -16,6 +16,8 @@ function App() {
       <Navbar />
       {/* Routes listing*/}
       <Routes>
+      <Route path="/" element={<Properties />} />
+
         <Route path="/auth" element={<AuthForm />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/profile" element={<Profile />} />
