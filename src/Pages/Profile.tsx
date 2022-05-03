@@ -1,6 +1,7 @@
 import { useEffect, useState, createContext } from 'react';
 import { getProfile } from '../Api/Client';
 import { updateProfile } from '../Api/Client';
+import { updatePassword } from '../Api/Client';
 import Client from '../Interface/Client';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -9,16 +10,31 @@ import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Password from '../Interface/Password';
 
 const Profile = () => {
 
     const [token, setToken] = useState<string | null>(null)
     const [dataProfile, setDataProfile] = useState<Client>()
-    const [newData, setNewData] = useState<Client>()
-
+    const [inputError, setInputError] = useState<Password | null>(null)
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+    // modal update password
+    const [openDialog, setOpenDialog] = useState(false);
+    const handleClickOpen = () => {
+        setOpenDialog(true);
+    };
+    const handleClickClose = () => {
+        setOpenDialog(false);
+    };
+
     const style = {
         position: 'absolute' as 'absolute',
         top: '50%',
@@ -42,29 +58,43 @@ const Profile = () => {
         }
     }, [token])
 
-    // updateForm submit
-        const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-            e.preventDefault()
+    // updateForm submit (data)
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
 
-            const data = new FormData(e.currentTarget)
-            if (token != null) {
-                if (data.get('lastname') && data.get('firstname') && data.get('mail') && data.get('phone') && data.get('password')) {
+        const data = new FormData(e.currentTarget)
 
-                    updateProfile(token as string, data.get('lastname') as string, data.get('firstname') as string, data.get('mail') as string, data.get('phone') as string, data.get('password') as string)
-                        .then(response => {
-                            console.log(response)
-                            if (response.status == 200) {
-                                setDataProfile(response.data)
-                                alert(response.data.message)
-                            } else {
-                                console.log('error')
-                            }
-                        })
-                }
-            } else {
-                setToken(localStorage.getItem('access_token'))
-            }
+        if (data.get('lastname') && data.get('firstname') && data.get('mail') && data.get('phone')) {
+
+            updateProfile(token as string, data.get('lastname') as string, data.get('firstname') as string, data.get('mail') as string, data.get('phone') as string)
+                .then(response => {
+                    setDataProfile(response.data)
+                    console.log(response.client)
+                    window.location.reload()
+                })
         }
+    }
+
+    //updateForm submit (password)
+    const handleSubmitPassword = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+
+        const data = new FormData(e.currentTarget)
+        if (data.get('password')) {
+            updatePassword(token as string, data.get('password') as string)
+                .then(response => {
+                    if (response.status == 201) {
+                        console.log(response)
+                    } else if (response.status == 422) {
+                        const { password }: Password = response.data.password
+                        const updatePasswordInterface: Password = {
+                            password: password
+                        }
+                        setInputError(updatePasswordInterface)
+                    }
+                })
+        }
+    }
 
     return (
         <div className="profileWrapper">
@@ -103,17 +133,62 @@ const Profile = () => {
                             </Grid>
                             <Grid item>
                                 <Button size="small" onClick={handleOpen}>Modifier mon profil</Button>
+                                <Button size="small" onClick={handleClickOpen}>
+                                    Modifier mon mot de passe
+                                </Button>
                             </Grid>
-
                         </Grid>
                     </Grid>
 
                 </Grid>
             </Paper>
 
+            {/* begin modal update password */}
+            <Dialog open={openDialog} onClose={handleClickClose}>
+                <DialogTitle>Modification du mot de passe</DialogTitle>
+                <Box
+                    component="form"
+                    sx={{
+                        '& .MuiTextField-root': { m: 1, width: '45ch' },
+                    }}
+                    noValidate
+                    onSubmit={handleSubmitPassword}
+                >
+                    <DialogContent>
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="password"
+                            label="Mot de passe"
+                            name="password"
+                            type="password"
+                            fullWidth
+                            variant="standard"
+                            autoComplete="current-password"
+                            helperText={inputError?.password}
+                            error={Boolean(inputError?.password)}
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button
+                            size="small"
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                        >
+                            Enregistrer
+                        </Button>
+                        <Button onClick={handleClickClose}>Annuler</Button>
+                    </DialogActions>
+                </Box>
+            </Dialog>
+            {/* end modal update password */}
+
+            {/* begin modal update data */}
             <Modal
                 open={open}
                 onClose={handleClose}
+                onSubmit={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
@@ -131,12 +206,13 @@ const Profile = () => {
                             autoComplete="off"
                             onSubmit={handleSubmit}
                         >
-                            {dataProfile && <TextField
-                                id="outlined-helperText"
-                                label="Nom"
-                                name="lastname"
-                                defaultValue={dataProfile.lastname}
-                            />}
+                            {dataProfile &&
+                                <TextField
+                                    id="outlined-helperText"
+                                    label="Nom"
+                                    name="lastname"
+                                    defaultValue={dataProfile.lastname}
+                                />}
                             {dataProfile &&
                                 <TextField
                                     id="outlined-helperText"
@@ -163,12 +239,6 @@ const Profile = () => {
                                         shrink: true,
                                     }}
                                 />}
-                            <TextField
-                                id="outlined-password-text"
-                                label="Password"
-                                type="password"
-                                name="password"
-                            />
 
                             <Button
                                 type="submit"
@@ -178,10 +248,12 @@ const Profile = () => {
                             >
                                 Enregistrer
                             </Button>
+                            <Button onClick={handleClose}>Annuler</Button>
                         </Box>
                     </Typography>
                 </Box>
             </Modal>
+            {/* end modal update data */}
         </div >
     )
 }
