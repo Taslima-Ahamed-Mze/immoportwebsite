@@ -1,18 +1,19 @@
 import customAxios from "./BaseUrl";
 
 export const getProfile = async (token: string) => {
-    return customAxios.get('client/profile', {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
+  return customAxios
+    .get("client/profile", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
-        .then((response) => {
-            return response.data.client;
-        })
-        .catch(error => {
-            return error.response.data
-        })
-}
+    .then((response) => {
+      return response.data.client;
+    })
+    .catch((error) => {
+      return error.response.data;
+    });
+};
 
 export const updateProfile = async (token: string, lastname: string, firstname: string, mail: string, phone: string) => {
     return customAxios.put('client/profile', {
