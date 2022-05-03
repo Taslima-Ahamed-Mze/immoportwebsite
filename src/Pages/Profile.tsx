@@ -71,11 +71,12 @@ const Profile = () => {
             updateProfile(token as string, data.get('lastname') as string, data.get('firstname') as string, data.get('mail') as string, data.get('phone') as string)
                 .then(response => {
                     console.log(response)
-                    if (response.status == 201) {
+                    if (response.status == 200) {
                         setDataProfile(response.data)
                         console.log(response)
                         window.location.reload()
                     } else if (response.status == 422) {
+                        console.log(response.data)
                         const { lastname, firstname, mail, phone }: Client = response.data;
                         const updateInterface: Client = {
                             lastname: lastname,

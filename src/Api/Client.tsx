@@ -1,18 +1,18 @@
 import customAxios from "./BaseUrl";
 
 export const getProfile = async (token: string) => {
-  return customAxios
-    .get("client/profile", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((response) => {
-      return response.data.client;
-    })
-    .catch((error) => {
-      return error.response.data;
-    });
+    return customAxios
+        .get("client/profile", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        .then((response) => {
+            return response.data.client;
+        })
+        .catch((error) => {
+            return error.response.data;
+        });
 };
 
 export const updateProfile = async (token: string, lastname: string, firstname: string, mail: string, phone: string) => {
@@ -27,10 +27,10 @@ export const updateProfile = async (token: string, lastname: string, firstname: 
         }
     })
         .then((response) => {
-            return response
+            return response.data
         })
         .catch(error => {
-            return error.response.data;
+            return error.response;
         })
 }
 
@@ -43,9 +43,9 @@ export const updatePassword = async (token: string, password: string) => {
         }
     })
         .then((response) => {
-            return response.data
+            return response
         })
         .catch(error => {
-            return error.response;
+            return error;
         })
 }
