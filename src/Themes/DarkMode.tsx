@@ -1,5 +1,4 @@
-const DarkMode = () => {
+import * as React from 'react';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-}
-
-export default DarkMode
+export const DarkMode = createTheme({}); 

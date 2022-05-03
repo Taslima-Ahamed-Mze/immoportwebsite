@@ -1,16 +1,16 @@
-import { createContext, useState } from 'react';
-import Client from '../Interface/Client';
-import Children from '../Interface/Children';
+import { createContext, useState } from "react";
+import Client from "../Interface/Client";
+import Children from "../Interface/Children";
 
 const ClientContext = createContext<Client>({
-    isLogged: () => { },
-    setToken: () => { },
-    lastname: undefined,
-    firstname: undefined,
-    mail: undefined,
-    phone: undefined,
-    access_token: undefined,
-})
+  isLogged: () => {},
+  setToken: () => {},
+  lastname: undefined,
+  firstname: undefined,
+  mail: undefined,
+  phone: undefined,
+  access_token: undefined,
+});
 
 // provider is used to encapsulate only the components that need the state in this context
 
