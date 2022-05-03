@@ -27,7 +27,7 @@ export const updateProfile = async (token: string, lastname: string, firstname: 
         }
     })
         .then((response) => {
-            return response.data
+            return response
         })
         .catch(error => {
             return error.response.data;
@@ -35,7 +35,7 @@ export const updateProfile = async (token: string, lastname: string, firstname: 
 }
 
 export const updatePassword = async (token: string, password: string) => {
-    return customAxios.put('client/profile', {
+    return customAxios.put('client/profile/password', {
         password
     }, {
         headers: {

@@ -2,7 +2,7 @@ import { useEffect, useState, createContext } from 'react';
 import { getProfile } from '../Api/Client';
 import { updateProfile } from '../Api/Client';
 import { updatePassword } from '../Api/Client';
-import Client from '../Interface/Client';
+import LoggedClient from '../Interface/LoggedClient';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -16,12 +16,14 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Password from '../Interface/Password';
+import Client from '../Interface/Client';
 
 const Profile = () => {
 
     const [token, setToken] = useState<string | null>(null)
-    const [dataProfile, setDataProfile] = useState<Client>()
-    const [inputError, setInputError] = useState<Password | null>(null)
+    const [dataProfile, setDataProfile] = useState<Client>() // old et new datas
+    const [inputError, setInputError] = useState<Password | null>(null); // error update password
+    const [inputClientError, setinputClientError] = useState<Client>() // error update client's data
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -68,9 +70,22 @@ const Profile = () => {
 
             updateProfile(token as string, data.get('lastname') as string, data.get('firstname') as string, data.get('mail') as string, data.get('phone') as string)
                 .then(response => {
-                    setDataProfile(response.data)
-                    console.log(response.client)
-                    window.location.reload()
+                    console.log(response)
+                    if (response.status == 201) {
+                        setDataProfile(response.data)
+                        console.log(response)
+                        window.location.reload()
+                    } else if (response.status == 422) {
+                        const { lastname, firstname, mail, phone }: Client = response.data;
+                        const updateInterface: Client = {
+                            lastname: lastname,
+                            firstname: firstname,
+                            mail: mail,
+                            phone: phone,
+                        };
+                        setinputClientError(updateInterface);
+                    }
+
                 })
         }
     }
@@ -83,10 +98,10 @@ const Profile = () => {
         if (data.get('password')) {
             updatePassword(token as string, data.get('password') as string)
                 .then(response => {
-                    if (response.status == 201) {
-                        console.log(response)
+                    if (response.status == 200) {
+                        alert(response.data.message)
                     } else if (response.status == 422) {
-                        const { password }: Password = response.data.password
+                        const { password }: Password = response.data
                         const updatePasswordInterface: Password = {
                             password: password
                         }
@@ -144,7 +159,11 @@ const Profile = () => {
             </Paper>
 
             {/* begin modal update password */}
-            <Dialog open={openDialog} onClose={handleClickClose}>
+            <Dialog
+                open={openDialog}
+                onClose={handleClickClose}
+                onSubmit={handleClickClose}
+            >
                 <DialogTitle>Modification du mot de passe</DialogTitle>
                 <Box
                     component="form"
@@ -212,6 +231,8 @@ const Profile = () => {
                                     label="Nom"
                                     name="lastname"
                                     defaultValue={dataProfile.lastname}
+                                    helperText={inputClientError?.lastname}
+                                    error={Boolean(inputClientError?.lastname)}
                                 />}
                             {dataProfile &&
                                 <TextField
@@ -219,6 +240,8 @@ const Profile = () => {
                                     label="Prénom"
                                     name="firstname"
                                     defaultValue={dataProfile.firstname}
+                                    helperText={inputClientError?.firstname}
+                                    error={Boolean(inputClientError?.firstname)}
                                 />}
                             {dataProfile &&
                                 <TextField
@@ -226,6 +249,8 @@ const Profile = () => {
                                     label="Mail"
                                     name="mail"
                                     defaultValue={dataProfile.mail}
+                                    helperText={inputClientError?.mail}
+                                    error={Boolean(inputClientError?.mail)}
                                 />}
                             {dataProfile &&
                                 <TextField
@@ -238,6 +263,8 @@ const Profile = () => {
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
+                                    helperText={inputClientError?.phone}
+                                    error={Boolean(inputClientError?.phone)}
                                 />}
 
                             <Button
