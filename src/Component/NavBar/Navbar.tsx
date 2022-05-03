@@ -61,7 +61,7 @@ const Navbar = () => {
 
           {/*NAVBAR - version responsive*/}
 
-          <Link to={"/auth"}>
+          <Link to={"/"}>
             <Avatar
               src="./Images/logo_immopport.png"
               alt="Logo ImmOpport"
