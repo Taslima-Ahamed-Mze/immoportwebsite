@@ -27,7 +27,7 @@ export const updateProfile = async (token: string, lastname: string, firstname: 
         }
     })
         .then((response) => {
-            return response.data
+            return response
         })
         .catch(error => {
             return error.response;
@@ -46,6 +46,6 @@ export const updatePassword = async (token: string, password: string) => {
             return response
         })
         .catch(error => {
-            return error;
+            return error.response;
         })
 }
