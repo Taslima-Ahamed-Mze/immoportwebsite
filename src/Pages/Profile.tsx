@@ -1,6 +1,6 @@
 import { useEffect, useState, createContext } from 'react';
 import { getProfile } from '../Api/Client';
-import { updateProfile } from '../Api/Client';
+import { updateProfile } from '../Api/Client'; 
 import Client from '../Interface/Client';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -47,7 +47,6 @@ const Profile = () => {
             e.preventDefault()
 
             const data = new FormData(e.currentTarget)
-            if (token != null) {
                 if (data.get('lastname') && data.get('firstname') && data.get('mail') && data.get('phone') && data.get('password')) {
 
                     updateProfile(token as string, data.get('lastname') as string, data.get('firstname') as string, data.get('mail') as string, data.get('phone') as string, data.get('password') as string)
@@ -61,9 +60,6 @@ const Profile = () => {
                             }
                         })
                 }
-            } else {
-                setToken(localStorage.getItem('access_token'))
-            }
         }
 
     return (
@@ -75,12 +71,11 @@ const Profile = () => {
                     margin: 'auto',
                     maxWidth: 500,
                     flexGrow: 1,
-                    backgroundColor: (theme) =>
-                        theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+                    // backgroundColor: (theme) =>
+                    //     theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
                 }}
             >
                 <Grid container spacing={5}>
-
                     <Grid item xs={12} sm container>
                         <Grid item xs container direction="column" spacing={3}>
                             <Grid item xs>

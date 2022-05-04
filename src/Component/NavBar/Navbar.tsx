@@ -63,9 +63,9 @@ const Navbar = () => {
 
           <Link to={"/auth"}>
             <Avatar
-              src="./Images/logo_immopport.png"
+              src="./Images/logo_immopport1.webp"
               alt="Logo ImmOpport"
-              sx={{ borderRadius: 2, width: 80, height: 60 }}
+              sx={{ borderRadius: 2, width: 75, height: 75 }}
             />
           </Link>
 

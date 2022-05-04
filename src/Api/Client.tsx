@@ -25,13 +25,14 @@ export const updateProfile = async (
 ) => {
   return customAxios
     .put("client/profile", {
-      authorization: `Bearer ${token}`,
       lastname,
       firstname,
       mail,
       phone,
       password,
-    })
+    },{ headers: {
+      Authorization: `Bearer ${token}`,
+    }})
     .then((response) => {
       return response.data;
     })
