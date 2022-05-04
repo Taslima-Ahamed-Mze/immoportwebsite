@@ -13,7 +13,8 @@ import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
-
+import { logout } from "../../Api/Auth";
+import { useNavigate } from "react-router-dom";
 
 // Add specific styles to items
 const Navbar = () => {
@@ -52,12 +53,18 @@ const Navbar = () => {
     setAnchorElUser(null);
   };
 
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    logout()
+    navigate("/");
+  }
+  
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          {/* {!clientContext.isLoggedIn && <button className="login" onClick={loginHandler}>Login</button>}
-                    {clientContext.isLoggedIn && (<button className="login" onClick={logoutHandler}>Logout</button>)} */}
+          {/* {!clientContext.isLogged && <button className="login" onClick={loginHandler}>Login</button>}
+          {clientContext.isLogged() && (<button className="login" onClick={logoutHandler}>Logout</button>)} */}
 
           {/*NAVBAR - version responsive*/}
 
@@ -158,6 +165,11 @@ const Navbar = () => {
                   </NavLink>
                 </MenuItem>
               ))}
+              <MenuItem onClick={handleLogout}>
+                <Typography>
+                  Déconnexion
+                </Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>
