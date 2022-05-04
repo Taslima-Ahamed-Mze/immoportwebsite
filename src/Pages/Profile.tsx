@@ -13,10 +13,12 @@ import Paper from '@mui/material/Paper';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Password from '../Interface/Password';
 import Client from '../Interface/Client';
+import Alert from '@mui/material/Alert';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 const Profile = () => {
 
@@ -24,18 +26,20 @@ const Profile = () => {
     const [dataProfile, setDataProfile] = useState<Client>() // old et new datas
     const [inputError, setInputError] = useState<Password | null>(null); // error update password
     const [inputClientError, setinputClientError] = useState<Client>() // error update client's data
+
+    // modal update client's data
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     // modal update password
     const [openDialog, setOpenDialog] = useState(false);
-    const handleClickOpen = () => {
-        setOpenDialog(true);
-    };
-    const handleClickClose = () => {
-        setOpenDialog(false);
-    };
+    const handleClickOpen = () => setOpenDialog(true);
+    const handleClickClose = () => setOpenDialog(false);
+
+    // sucess alert
+    const [openAlert, setAlert] = useState(true);
+    const [alertContent, setAlertContent] = useState('');
 
     const style = {
         position: 'absolute' as 'absolute',
@@ -70,23 +74,22 @@ const Profile = () => {
 
             updateProfile(token as string, data.get('lastname') as string, data.get('firstname') as string, data.get('mail') as string, data.get('phone') as string)
                 .then(response => {
-                    console.log(response)
                     if (response.status == 200) {
                         setDataProfile(response.data)
-                        console.log(response)
-                        window.location.reload()
+                        setAlertContent(response.data.message);
+                        setAlert(true)
+                        setOpen(false)
                     } else if (response.status == 422) {
-                        console.log(response.data)
                         const { lastname, firstname, mail, phone }: Client = response.data;
                         const updateInterface: Client = {
                             lastname: lastname,
                             firstname: firstname,
                             mail: mail,
                             phone: phone,
-                        };
-                        setinputClientError(updateInterface);
+                        }
+                        setOpen(true);
+                        setinputClientError(updateInterface)
                     }
-
                 })
         }
     }
@@ -96,19 +99,29 @@ const Profile = () => {
         e.preventDefault()
 
         const data = new FormData(e.currentTarget)
+
         if (data.get('password')) {
             updatePassword(token as string, data.get('password') as string)
                 .then(response => {
+                    console.log(response)
                     if (response.status == 200) {
                         alert(response.data.message)
+                        window.location.reload()
                     } else if (response.status == 422) {
+
                         const { password }: Password = response.data
                         const updatePasswordInterface: Password = {
                             password: password
                         }
+                        if (updatePasswordInterface) {
+                            setOpenDialog(true);
+                        } else {
+                            setOpenDialog(false)
+                        }
                         setInputError(updatePasswordInterface)
                     }
                 })
+                .catch(error => console.log(error))
         }
     }
 
@@ -130,7 +143,6 @@ const Profile = () => {
                     <Grid item xs={12} sm container>
                         <Grid item xs container direction="column" spacing={3}>
                             <Grid item xs>
-
                                 {dataProfile &&
                                     <Typography gutterBottom variant="subtitle1" component="div">
                                         {dataProfile.lastname}, {dataProfile.firstname}
@@ -145,7 +157,6 @@ const Profile = () => {
                                     <Typography variant="body2" color="text.secondary">
                                         {dataProfile.phone}
                                     </Typography>}
-
                             </Grid>
                             <Grid item>
                                 <Button size="small" onClick={handleOpen}>Modifier mon profil</Button>
@@ -159,56 +170,31 @@ const Profile = () => {
                 </Grid>
             </Paper>
 
-            {/* begin modal update password */}
-            <Dialog
-                open={openDialog}
-                onClose={handleClickClose}
-                onSubmit={handleClickClose}
-            >
-                <DialogTitle>Modification du mot de passe</DialogTitle>
-                <Box
-                    component="form"
-                    sx={{
-                        '& .MuiTextField-root': { m: 1, width: '45ch' },
-                    }}
-                    noValidate
-                    onSubmit={handleSubmitPassword}
-                >
-                    <DialogContent>
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="password"
-                            label="Mot de passe"
-                            name="password"
-                            type="password"
-                            fullWidth
-                            variant="standard"
-                            autoComplete="current-password"
-                            helperText={inputError?.password}
-                            error={Boolean(inputError?.password)}
-                        />
-                    </DialogContent>
-                    <DialogActions>
-                        <Button
+            {/* Success alert */}
+            {openAlert &&
+                <Alert
+                    action={
+                        <IconButton
+                            aria-label="close"
+                            color="inherit"
                             size="small"
-                            type="submit"
-                            fullWidth
-                            variant="contained"
+                            onClick={() => {
+                                setAlert(false);
+                            }}
                         >
-                            Enregistrer
-                        </Button>
-                        <Button onClick={handleClickClose}>Annuler</Button>
-                    </DialogActions>
-                </Box>
-            </Dialog>
-            {/* end modal update password */}
+                            <CloseIcon fontSize="inherit" />
+                        </IconButton>
+                    }
+                    sx={{ mb: 2 }}
+                    severity="success">
+                    {alertContent}
+                </Alert>
+            }
 
             {/* begin modal update data */}
             <Modal
                 open={open}
                 onClose={handleClose}
-                onSubmit={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
@@ -276,12 +262,57 @@ const Profile = () => {
                             >
                                 Enregistrer
                             </Button>
-                            <Button onClick={handleClose}>Annuler</Button>
+                            <Button onClick={handleClose}
+                            >Annuler</Button>
                         </Box>
                     </Typography>
                 </Box>
             </Modal>
             {/* end modal update data */}
+
+            {/* begin modal update password */}
+            <Dialog
+                open={openDialog}
+                onClose={handleClickClose}
+            >
+                <DialogTitle>Modification du mot de passe</DialogTitle>
+                <Box
+                    component="form"
+                    sx={{
+                        '& .MuiTextField-root': { m: 1, width: '45ch' },
+                    }}
+                    noValidate
+                    onSubmit={handleSubmitPassword}
+                >
+                    <DialogContent>
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="password"
+                            label="Mot de passe"
+                            name="password"
+                            type="password"
+                            fullWidth
+                            variant="standard"
+                            autoComplete="current-password"
+                            helperText={inputError?.password}
+                            error={Boolean(inputError?.password)}
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button
+                            size="small"
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                        >
+                            Enregistrer
+                        </Button>
+                        <Button onClick={handleClickClose}>Annuler</Button>
+                    </DialogActions>
+                </Box>
+            </Dialog>
+            {/* end modal update password */}
         </div >
     )
 }
