@@ -7,7 +7,7 @@ import Navbar from './Component/NavBar/Navbar';
 import Profile from './Pages/Profile';
 import RegisterForm from './Component/NavBar/Register/RegisterForm';
 import './App.css';
-import Properties from './Component/NavBar/Property';
+import Properties from './Component/Property';
 
 function App() {
   return (
