@@ -7,6 +7,7 @@ import Navbar from './Component/NavBar/Navbar';
 import Profile from './Pages/Profile';
 import RegisterForm from './Component/NavBar/Register/RegisterForm';
 import './App.css';
+import Properties from './Component/NavBar/Property';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         
         {/*Routes listed*/}
         <Routes>
+          <Route path="/" element={<Properties/>}/>
           <Route path="/auth" element={<AuthForm />} />
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/profile" element={<Profile />} />
