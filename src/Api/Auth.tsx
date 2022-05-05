@@ -45,6 +45,7 @@ export const register = async (
       return error.response;
     });
 };
+
 export const getProfile = async (token: string) => {
   return customAxios
     .get("client/profile", {

@@ -60,7 +60,7 @@ const Profile = () => {
                             }
                         })
                 }
-        }
+        } 
 
     return (
         <div className="profileWrapper">
