@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-import Client from "../Api/Client.tsx";
 import customAxios from "./BaseUrl";
-import Profile from "../Pages/Profile.tsx";
+
 
 // Check if client is logged in
 
