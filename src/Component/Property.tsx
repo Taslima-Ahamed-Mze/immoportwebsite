@@ -10,6 +10,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useEffect, useState, createContext } from 'react';
 import Grid from '@mui/material/Grid';
+import { Link } from 'react-router-dom';
+
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import SwiperCore, {
     Keyboard,
@@ -52,7 +54,7 @@ const useStyles = makeStyles({
     },
 }) 
 
-const Properties= () => {
+const Properties = () => {
 
 
     const [dataProperty, setDataProperty] = useState<Array<Property>| null>(null)
@@ -96,7 +98,6 @@ const Properties= () => {
                                     <SwiperSlide key={index}>
 
                                         <CardMedia
-                                       
                                         image={picture.path}
                                         className={media}
                                         />
@@ -116,7 +117,8 @@ const Properties= () => {
                             </CardContent>
                             <CardActions>
                                 <FavoriteIcon />
-                                <Button size="small">Voir plus</Button>
+                                <Button size="small"><Link to="/property/1">Voir plus</Link></Button>
+
                             </CardActions>
                             
                         </Card>

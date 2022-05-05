@@ -8,24 +8,27 @@ import Profile from './Pages/Profile';
 import RegisterForm from './Component/NavBar/Register/RegisterForm';
 import './App.css';
 import Properties from './Component/Property';
+import SingleProperty from './Component/SingleProperty';
 
 function App() {
   return (
     
     <div className="App">
       {/*Component "ThemeProvider" takes DefaultTheme props and applies them to the whole project*/}
-      <ThemeProvider theme={DefaultTheme}>
+      {/* <ThemeProvider theme={DefaultTheme}> */}
 
         <Navbar />
         
         {/*Routes listed*/}
         <Routes>
           <Route path="/" element={<Properties/>}/>
+          <Route path="/property/:id" element={<SingleProperty/>}/>
+
           <Route path="/auth" element={<AuthForm />} />
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/profile" element={<Profile />} />
         </Routes>
-      </ThemeProvider>
+      {/* </ThemeProvider> */}
     </div>
   );
 }
