@@ -32,6 +32,8 @@ function App() {
           <Route path="/authentification" element={<AuthForm />} />
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/espaceclient" element={<Profile />} />
+          <Route path="/property/:name" element={<SingleProperty/>}/>
+
         </Routes>
       {/* </ThemeProvider> */}
     </div>

@@ -4,12 +4,9 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
-<<<<<<< HEAD
 import 'swiper/swiper-bundle.css';
 
-=======
 import { ClientProvider } from "./Contexts/ClientContext"
->>>>>>> IB
 
 ReactDOM.render(
   <React.StrictMode>
