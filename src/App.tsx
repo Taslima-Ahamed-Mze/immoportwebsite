@@ -22,7 +22,7 @@ function App() {
         {/*Routes listed*/}
         <Routes>
           <Route path="/" element={<Properties/>}/>
-          <Route path="/property/:id" element={<SingleProperty/>}/>
+          <Route path="/property/:name" element={<SingleProperty/>}/>
 
           <Route path="/auth" element={<AuthForm />} />
           <Route path="/register" element={<RegisterForm />} />

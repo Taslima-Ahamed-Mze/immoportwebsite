@@ -2,7 +2,7 @@ import customAxios from "./BaseUrl";
 
 
 export const login = async (mail: string, password: string) => {
-    return customAxios.get('auth', {
+    return customAxios.get('authentification', {
         params: {
             mail,
             password
@@ -31,7 +31,7 @@ export const register = async (
   phone: string
 ) => {
   return customAxios
-    .post("auth", {
+    .post("authentification", {
       lastname,
       firstname,
       mail,
@@ -48,7 +48,7 @@ export const register = async (
 
 export const getProfile = async (token: string) => {
   return customAxios
-    .get("client/profile", {
+    .get("client//espaceclient", {
       headers: {
         Authorization: `Bearer ${token}`,
       },

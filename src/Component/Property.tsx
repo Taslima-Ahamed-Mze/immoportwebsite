@@ -11,7 +11,6 @@ import Typography from '@mui/material/Typography';
 import { useEffect, useState, createContext } from 'react';
 import Grid from '@mui/material/Grid';
 import { Link } from 'react-router-dom';
-
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import SwiperCore, {
     Keyboard,
@@ -19,9 +18,6 @@ import SwiperCore, {
 	Pagination,
 	Navigation,
 } from 'swiper/core';
-
-
-
 import {Property}  from '../Interface/Property';
 import { getProperties} from '../Api/Property';
 
@@ -59,14 +55,13 @@ const Properties = () => {
 
     const [dataProperty, setDataProperty] = useState<Array<Property>| null>(null)
 
-    const images = ['https://images.assetsdelivery.com/compings_v2/elxeneize/elxeneize1908/elxeneize190800045.jpg','https://www.latelier-immo.fr/public/img/medium/f948bd5e2b38e4853948994e2c7c9eab.jpg']
-
-
     useEffect(() => {
         getProperties()
         .then(response => {
             setDataProperty(response)
-            console.log(response)    
+            console.log(response);
+            
+               
         })
         
     },[])
@@ -117,7 +112,9 @@ const Properties = () => {
                             </CardContent>
                             <CardActions>
                                 <FavoriteIcon />
-                                <Button size="small"><Link to="/property/1">Voir plus</Link></Button>
+                                <Button size="small">
+                                <Link to={`/property/${item.name}`} state={item.id}>Voir plus</Link>
+                                </Button>
 
                             </CardActions>
                             
