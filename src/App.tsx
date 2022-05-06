@@ -10,6 +10,7 @@ import Properties from './Component/Property';
 import ClientContext from './Contexts/ClientContext'
 import { useContext } from 'react';
 import { PrivateRoute } from './Config/Routes';
+import SingleProperty from './Component/SingleProperty';
 
 function App() {
   const user = useContext(ClientContext);
@@ -19,7 +20,7 @@ function App() {
     <div className="App">
 
       {/*Component "ThemeProvider" takes DefaultTheme props and applies them to the whole project*/}
-      <ThemeProvider theme={DefaultTheme}>
+      {/* <ThemeProvider theme={DefaultTheme}> */}
 
         <Navbar />
         {/*Routes listed*/}
@@ -32,7 +33,7 @@ function App() {
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/espaceclient" element={<Profile />} />
         </Routes>
-      </ThemeProvider>
+      {/* </ThemeProvider> */}
     </div>
   );
 }
