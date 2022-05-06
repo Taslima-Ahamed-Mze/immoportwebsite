@@ -21,7 +21,7 @@ const SingleProperty = ()=> {
     const location= useLocation();
     const id = location.state
     
-    const [dataProperty, setDataProperty] = useState<Array<Property>| null>(null)
+    const [dataProperty, setDataProperty] = useState<Property>()
 
     const ItemImage = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -33,7 +33,7 @@ const SingleProperty = ()=> {
         height:'500px'
     }));
 
-    
+
      
     useEffect(() => {
         getSingleProperty(id as number)
@@ -55,12 +55,16 @@ const SingleProperty = ()=> {
                 </Box>
             </ItemImage>
         </Grid>
-        <Grid item xs={4} direction={"column"} spacing={5}>
-            
+        <Grid item xs={4} >
+            {dataProperty &&
             <Typography gutterBottom variant="h5" component="div">
-            Résidence Launey
+            {dataProperty.name}
+            </Typography>}
+           <LocationOnIcon /> {dataProperty?.address}
+           <Typography gutterBottom variant="h6" component="div">
+            100 000 €
             </Typography>
-           <LocationOnIcon /> Impasse Bonaparte
+            
                 
           
             
