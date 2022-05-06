@@ -1,11 +1,11 @@
 interface LoggedClient {
-    lastname: string | undefined;
-    firstname: string | undefined;
-    mail: string | undefined;
-    phone: number | undefined;
-    access_token: string | undefined;
-    isLogged: (isLogged: boolean) => void;
-    setToken: (access_token: string) => void
+    lastname: string | undefined,
+    firstname: string | undefined,
+    mail: string | undefined,
+    phone: number | undefined,
+    isLoggedIn: boolean | null,
+    login: () => void;
+    logout: () => void;
 }
 
 export default LoggedClient

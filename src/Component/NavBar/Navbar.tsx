@@ -1,5 +1,5 @@
 import * as React from "react";
-import { NavLink, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
@@ -13,25 +13,26 @@ import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
-import { logout } from "../../Api/Auth";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
 
 // Add specific styles to items
 const Navbar = () => {
-  const clientContext = React.useContext(ClientContext);
+  const user = useContext(ClientContext)
+  console.log(user)
 
   // Navbar and profile settings links
   const pages = ["Acheter", "Vendre", "Louer", "Bureaux & Commerces"];
-  const settings = [
-    {
-      name: "Connexion",
-      path: "/auth",
-    },
-    {
-      name: "Nouveau ? (Créer un compte)",
-      path: "/register",
-    },
-  ];
+  // const settings = [
+  //   {
+  //     name: "Connexion",
+  //     path: "/auth",
+  //   },
+  //   {
+  //     name: "Nouveau ? (Créer un compte)",
+  //     path: "/register",
+  //   },
+  // ];
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -53,18 +54,33 @@ const Navbar = () => {
     setAnchorElUser(null);
   };
 
+  // function stringAvatar(name: string) {
+  //   return {
+  //     children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+  //   };
+  // }
+
   const navigate = useNavigate();
+
+  const handleLogin = () => {
+    
+    navigate("/authentification")
+  }
   const handleLogout = () => {
-    logout()
+    user.logout()
     navigate("/");
   }
-  
+  const handleRegister = () => {
+    navigate("/register");
+  }
+  const handleProfile = () => {
+    navigate("/espaceclient")
+  }
+
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          {/* {!clientContext.isLogged && <button className="login" onClick={loginHandler}>Login</button>}
-          {clientContext.isLogged() && (<button className="login" onClick={logoutHandler}>Logout</button>)} */}
 
           {/*NAVBAR - version responsive*/}
 
@@ -139,11 +155,19 @@ const Navbar = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                {
+                  user.isLoggedIn ?
+                    <Avatar alt={user.firstname} src="/static/images/avatar/2.jpg" />
+                    :
+                    <Avatar src="/static/images/avatar/2.jpg" />
+                }
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: "45px" }}
+              sx={{
+                mt: "45px",
+                px: 3
+              }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
@@ -158,18 +182,47 @@ const Navbar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
+
+              {/* {settings.map((setting) => (
                 <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
                   <NavLink to={setting.path} style={{ textDecoration: "none" }}>
                     <Typography textAlign="center">{setting.name}</Typography>
                   </NavLink>
                 </MenuItem>
-              ))}
-              <MenuItem onClick={handleLogout}>
-                <Typography>
-                  Déconnexion
-                </Typography>
-              </MenuItem>
+              ))} */}
+
+              {!user.isLoggedIn &&
+                <>
+                  <MenuItem onClick={handleLogin}>
+                    <Typography textAlign="center">Login</Typography>
+                  </MenuItem>
+
+                  <MenuItem onClick={handleRegister}>
+                    <Typography textAlign="center">Register</Typography>
+                  </MenuItem>
+                </>
+              }
+              {user.isLoggedIn &&
+                <>
+                  <Typography textAlign="center">
+                    {user.lastname != undefined &&
+                      <span>Hello {user.firstname} {user.lastname} !</span>
+                    }
+                  </Typography>
+                  <MenuItem onClick={handleProfile}>
+                    <Typography textAlign="center">Mon profil</Typography>
+                  </MenuItem>
+                  <MenuItem>
+                    <Typography textAlign="center">Mes favoris</Typography>
+                  </MenuItem>
+                  <MenuItem>
+                    <Typography textAlign="center">Mes documents</Typography>
+                  </MenuItem>
+                  <MenuItem onClick={handleLogout}>
+                    <Typography textAlign="center">Déconnexion</Typography>
+                  </MenuItem>
+                </>
+              }
             </Menu>
           </Box>
         </Toolbar>

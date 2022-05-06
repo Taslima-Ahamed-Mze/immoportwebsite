@@ -1,8 +1,7 @@
-import { useEffect, useState, createContext } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { getProfile } from '../Api/Client';
 import { updateProfile } from '../Api/Client';
 import { updatePassword } from '../Api/Client';
-import LoggedClient from '../Interface/LoggedClient';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -19,6 +18,7 @@ import Client from '../Interface/Client';
 import Alert from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import ClientContext from '../Contexts/ClientContext';
 
 const Profile = () => {
 
@@ -26,6 +26,8 @@ const Profile = () => {
     const [dataProfile, setDataProfile] = useState<Client>() // old et new datas
     const [inputError, setInputError] = useState<Password | null>(null); // error update password
     const [inputClientError, setinputClientError] = useState<Client>() // error update client's data
+
+    const user = useContext(ClientContext)
 
     // modal update client's data
     const [open, setOpen] = useState(false);
@@ -38,7 +40,7 @@ const Profile = () => {
     const handleClickClose = () => setOpenDialog(false);
 
     // sucess alert
-    const [openAlert, setAlert] = useState(true);
+    const [openAlert, setAlert] = useState(false);
     const [alertContent, setAlertContent] = useState('');
 
     const style = {
@@ -58,10 +60,14 @@ const Profile = () => {
             getProfile(token)
                 .then(response => {
                     setDataProfile(response)
+                    user.login()
+                    user.lastname = response.lastname
+                    user.firstname = response.firstname
                 })
         } else {
             setToken(localStorage.getItem('access_token'))
         }
+
     }, [token])
 
     // updateForm submit (data)
@@ -103,9 +109,9 @@ const Profile = () => {
         if (data.get('password')) {
             updatePassword(token as string, data.get('password') as string)
                 .then(response => {
-                    console.log(response)
                     if (response.status == 200) {
-                        alert(response.data.message)
+                        setAlertContent(response.data.message);
+                        setAlert(true)
                         window.location.reload()
                     } else if (response.status == 422) {
 
@@ -121,7 +127,7 @@ const Profile = () => {
                         setInputError(updatePasswordInterface)
                     }
                 })
-                .catch(error => console.log(error))
+                .catch(error => alert(error))
         }
     }
 
@@ -132,10 +138,10 @@ const Profile = () => {
                 sx={{
                     p: 5,
                     margin: 'auto',
-                    maxWidth: 500,
+                    maxWidth: 200,
                     flexGrow: 1,
-                    backgroundColor: (theme) =>
-                        theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+                    // backgroundColor: (theme) =>
+                    //     theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
                 }}
             >
                 <Grid container spacing={5}>
@@ -186,7 +192,7 @@ const Profile = () => {
                         </IconButton>
                     }
                     sx={{ mb: 2 }}
-                    severity="success">
+                    severity="info">
                     {alertContent}
                 </Alert>
             }

@@ -43,7 +43,7 @@ const RegisterForm = () => {
         data.get("phone") as string
       ).then((response) => {
         if (response.status == 201) {
-          navigate("/auth");
+          navigate("/authentification");
         } else if (response.status == 422) {
           const { password, mail, phone, firstname, lastname }: Register =
             response.data;

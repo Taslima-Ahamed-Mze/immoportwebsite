@@ -2,28 +2,35 @@ import { DefaultTheme } from './Themes/DefaultTheme';
 import { Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import AuthForm from './Component/NavBar/Auth/AuthForm';
-import ClientContext from './Contexts/ClientContext';
 import Navbar from './Component/NavBar/Navbar';
 import Profile from './Pages/Profile';
 import RegisterForm from './Component/NavBar/Register/RegisterForm';
 import './App.css';
-import Properties from './Component/NavBar/Property';
+import Properties from './Component/Property';
+import ClientContext from './Contexts/ClientContext'
+import { useContext } from 'react';
+import { PrivateRoute } from './Config/Routes';
 
 function App() {
+  const user = useContext(ClientContext);
+
   return (
-    
+
     <div className="App">
+
       {/*Component "ThemeProvider" takes DefaultTheme props and applies them to the whole project*/}
       <ThemeProvider theme={DefaultTheme}>
 
         <Navbar />
-        
         {/*Routes listed*/}
         <Routes>
-          <Route path="/" element={<Properties/>}/>
-          <Route path="/auth" element={<AuthForm />} />
+          {/* <Route path='/' element={<PrivateRoute />}>
+            <Route path='/'element={<AuthForm />} />
+          </Route> */}
+          <Route path="/" element={<Properties />} />
+          <Route path="/authentification" element={<AuthForm />} />
           <Route path="/register" element={<RegisterForm />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/espaceclient" element={<Profile />} />
         </Routes>
       </ThemeProvider>
     </div>

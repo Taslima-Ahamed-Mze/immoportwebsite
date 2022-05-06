@@ -1,7 +1,7 @@
 import { login } from "../../../Api/Auth";
 import { red } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -31,7 +31,7 @@ const AuthForm = () => {
       login(data.get("email") as string, data.get("password") as string)
         .then((response) => {
           if (response.status == 200) {
-            navigate("/profile");
+            navigate("/espaceclient");
           } else if (response.status == 401) {
             setFormError(response.data.message);
           } else if (response.status == 422) {
@@ -45,7 +45,7 @@ const AuthForm = () => {
           }
         })
         .catch((error) => {
-          console.log(error);
+          alert(error);
         });
     } else {
       setFormError("Tous les champs sont obligatoires");
