@@ -23,7 +23,8 @@ import ClientContext from '../Contexts/ClientContext';
 const Profile = () => {
 
     const [token, setToken] = useState<string | null>(null)
-    const [dataProfile, setDataProfile] = useState<Client>() // old et new datas
+    const [dataProfile, setDataProfile] = useState<Client>()
+    console.log(dataProfile) // old et new datas
     const [inputError, setInputError] = useState<Password | null>(null); // error update password
     const [inputClientError, setinputClientError] = useState<Client>() // error update client's data
 
@@ -59,10 +60,16 @@ const Profile = () => {
         if (token != null) {
             getProfile(token)
                 .then(response => {
-                    setDataProfile(response)
-                    user.login()
                     user.lastname = response.lastname
                     user.firstname = response.firstname
+                    user.mail = response.mail
+                    user.phone = response.phone
+                    const lastname = user.lastname
+                    const firstname = user.firstname
+                    const mail = user.mail
+                    const phone = user.phone
+                    setDataProfile({ lastname, firstname, mail, phone })
+                    user.login()
                 })
         } else {
             setToken(localStorage.getItem('access_token'))
