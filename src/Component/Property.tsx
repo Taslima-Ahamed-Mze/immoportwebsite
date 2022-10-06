@@ -89,7 +89,7 @@ const Properties = () => {
                             navigation={Navigation}
                             >
 
-                                {item.property_pictures?.map((picture, index)=>(
+                                {item.property_pictures?.length?item.property_pictures.map((picture, index)=>(
                                     <SwiperSlide key={index}>
 
                                         <CardMedia
@@ -97,7 +97,10 @@ const Properties = () => {
                                         className={media}
                                         />
                                     </SwiperSlide>
-                                ))}
+                                )):<CardMedia
+                                image={'https://us.123rf.com/450wm/romanbykhalets/romanbykhalets1909/romanbykhalets190900245/131068993-ic%C3%B4ne-isol%C3%A9-de-l-image-symbole-de-la-galerie-signe-d-image-pour-le-web-ou-l-application-.jpg?ver=6'}
+                                className={media}
+                                />}
                             </Swiper>
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="div">
