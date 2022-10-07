@@ -20,9 +20,13 @@ import SwiperCore, {
 import { makeStyles } from '@mui/styles';
 import { CardContent } from '@mui/material';
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import Button from "@mui/material/Button";
-import TextareaAutosize from '@mui/material/TextareaAutosize';
+import Hidden from '@mui/material/Hidden';
+import Login from "../Interface/Login";
+import { useNavigate } from "react-router-dom";
+import { login } from "../Api/Auth";
+
+
 
 
 const useStyles = makeStyles({
@@ -89,6 +93,46 @@ const SingleProperty = ()=> {
     },[])
     const { media, swiperContainer,title, cardinfo,cardcontact,textarea } = useStyles()
 
+
+
+
+    // gestion formulaire de contact
+
+  const [inputError, setInputError] = useState<Login | null>(null);
+  const [formError, setFormError] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const data = new FormData(e.currentTarget);
+    if (data.get("email") || data.get("message")) {
+      login(data.get("email") as string, data.get("password") as string)
+        .then((response) => {
+          if (response.status == 200) {
+            navigate("/espaceclient");
+          } else if (response.status == 401) {
+            setFormError(response.data.message);
+          } else if (response.status == 422) {
+            const { password, mail }: Login = response.data;
+            const loginInterface: Login = {
+              password: password,
+              mail: mail,
+            };
+            setInputError(loginInterface);
+            setFormError(null);
+          }
+        })
+        .catch((error) => {
+          alert(error);
+        });
+    } else {
+      setFormError("Tous les champs sont obligatoires");
+    }
+  };
+
+  //fin
+
   return (
     <Grid container spacing={3} sx={{p:10}}>
 
@@ -152,6 +196,15 @@ const SingleProperty = ()=> {
                         <Avatar sx={{  bgcolor: "primary.main" }}>
                             <AddIcCallIcon />
                         </Avatar>
+                        <Typography component="h3" my={2} >
+                            {formError}
+                        </Typography>
+                        <Box
+                            component="form"
+                            noValidate
+                            onSubmit={handleSubmit}
+                            sx={{ mt: 1 }}
+                        />
                         <TextField
                             margin="normal"
                             required
@@ -163,20 +216,18 @@ const SingleProperty = ()=> {
                             autoFocus
                         />
                         <TextField
-                        fullWidth
-          id="outlined-textarea"
-          label="Message"
-          placeholder="Placeholder"
-          multiline
-          variant="outlined"
-          inputProps={{ className: textarea }}
-        />
+                            fullWidth
+                            id="outlined-textarea"
+                            label="Message"
+                            placeholder="Message"
+                            name="message"
+                            multiline
+                            variant="outlined"
+                            inputProps={{ className: textarea }}
+                        />
                         
-              
-              
                         <Button
                             type="submit"
-                            fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                         >
