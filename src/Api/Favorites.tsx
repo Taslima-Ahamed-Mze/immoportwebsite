@@ -16,7 +16,7 @@ const DeleteFavorite = async (token : string) => {};
 
 const GetFavoriteList = async (token : string) => {
     
-    return customAxios.get("client/favorites", {
+    return customAxios.get("customer/my-favorite-list", {
         headers: {
             Authorization: `Bearer ${token}`,
         }, 
