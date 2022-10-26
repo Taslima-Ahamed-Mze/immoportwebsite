@@ -15,14 +15,14 @@ import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
+import { makeStyles } from "@mui/material";
 
 // Add specific styles to items
 const Navbar = () => {
   const user = useContext(ClientContext)
-  console.log(user)
 
   // Navbar and profile settings links
-  const pages = ["Acheter", "Vendre", "Louer", "Bureaux & Commerces"];
+  const pages = ["Acheter", "Vendre", "Louer"];
   // const settings = [
   //   {
   //     name: "Connexion",
@@ -63,7 +63,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    
+
     navigate("/authentification")
   }
   const handleLogout = () => {
@@ -78,17 +78,17 @@ const Navbar = () => {
   }
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" style={{ background: 'white' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
 
-          {/*NAVBAR - version responsive*/}
+          {/*NAVBAR - version mobile*/}
 
           <Link to={"/"}>
             <Avatar
-              src="./Images/logo_immopport1.webp"
-              alt="Logo ImmOpport"
-              sx={{ borderRadius: 2, width: 75, height: 75 }}
+              src="./Images/logo.png"
+              alt="Logo Immopport"
+              sx={{ width: 105, height: 105, padding: 2 }}
             />
           </Link>
 
@@ -119,7 +119,7 @@ const Navbar = () => {
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: "block", md: "none" },
+                display: { xs: "block", md: "none" }
               }}
             >
               {pages.map((page) => (
@@ -130,15 +130,7 @@ const Navbar = () => {
             </Menu>
           </Box>
 
-          {/*NAVBAR - version classique*/}
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
-          >
-            LOGO
-          </Typography>
+          {/*NAVBAR - version desktop*/}
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
@@ -147,22 +139,20 @@ const Navbar = () => {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
-                {page}
+                <Typography color="#f13d3d" letterSpacing={3} marginX={10}>{page}</Typography>
               </Button>
             ))}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                {
-                  user.isLoggedIn ?
-                    <Avatar alt={user.firstname} src="/static/images/avatar/2.jpg" />
-                    :
-                    <Avatar src="/static/images/avatar/2.jpg" />
-                }
-              </IconButton>
-            </Tooltip>
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              {
+                user.isLoggedIn ?
+                  <Avatar alt={user.firstname} src="/static/images/avatar/2.jpg" />
+                  :
+                  <Avatar src="/static/images/avatar/2.jpg" />
+              }
+            </IconButton>
             <Menu
               sx={{
                 mt: "45px",
@@ -194,11 +184,11 @@ const Navbar = () => {
               {!user.isLoggedIn &&
                 <>
                   <MenuItem onClick={handleLogin}>
-                    <Typography textAlign="center">Login</Typography>
+                    <Typography textAlign="center">Se connecter</Typography>
                   </MenuItem>
 
                   <MenuItem onClick={handleRegister}>
-                    <Typography textAlign="center">Register</Typography>
+                    <Typography textAlign="center">Créer mon compte</Typography>
                   </MenuItem>
                 </>
               }
