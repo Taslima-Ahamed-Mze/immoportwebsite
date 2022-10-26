@@ -29,7 +29,7 @@ function App() {
             <Route path='/'element={<AuthForm />} />
           </Route> */}
           <Route path="/" element={<Properties />} />
-          <Route path="/authentification" element={<AuthForm />} />
+          <Route path="/login" element={<AuthForm />} />
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/espaceclient" element={<Profile />} />
           <Route path="/property/:name" element={<SingleProperty/>}/>

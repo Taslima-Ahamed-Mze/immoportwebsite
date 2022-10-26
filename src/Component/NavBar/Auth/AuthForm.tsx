@@ -82,11 +82,8 @@ const AuthForm = () => {
               alignItems: "center",
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
-              <LockOutlinedIcon />
-            </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              Me connecter
             </Typography>
             <Typography component="h3" my={2} color={color}>
               {formError}
@@ -102,7 +99,7 @@ const AuthForm = () => {
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                label="Adresse email"
                 name="email"
                 autoComplete="email"
                 autoFocus
@@ -114,34 +111,26 @@ const AuthForm = () => {
                 required
                 fullWidth
                 name="password"
-                label="Password"
+                label="Mot de passe"
                 type="password"
                 id="password"
                 autoComplete="current-password"
                 helperText={inputError?.password}
                 error={Boolean(inputError?.password)}
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                color="error"
               >
-                Sign In
+                Connexion
               </Button>
               <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
                 <Grid item>
-                  <Link href="/register" variant="body2">
-                    {"Vous n'avez pas de compte? Sign Up"}
+                  <Link href="/register" variant="body2" style={{ textDecoration: 'none', color: 'black', textEmphasis: '#f13d3d'}}>
+                    {"Vous n'avez pas de compte? Enregistrez-vous!"}
                   </Link>
                 </Grid>
               </Grid>

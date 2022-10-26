@@ -26,7 +26,7 @@ const Navbar = () => {
   // const settings = [
   //   {
   //     name: "Connexion",
-  //     path: "/auth",
+  //     path: "/login",
   //   },
   //   {
   //     name: "Nouveau ? (Créer un compte)",
@@ -64,7 +64,7 @@ const Navbar = () => {
 
   const handleLogin = () => {
 
-    navigate("/authentification")
+    navigate("/login")
   }
   const handleLogout = () => {
     user.logout()

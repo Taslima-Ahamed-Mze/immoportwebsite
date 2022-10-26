@@ -43,7 +43,7 @@ const RegisterForm = () => {
         data.get("phone") as string
       ).then((response) => {
         if (response.status == 201) {
-          navigate("/authentification");
+          navigate("/login");
         } else if (response.status == 422) {
           const { password, mail, phone, firstname, lastname }: Register =
             response.data;
@@ -93,11 +93,8 @@ const RegisterForm = () => {
               alignItems: "center",
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
-              <LockOutlinedIcon />
-            </Avatar>
             <Typography component="h1" variant="h5">
-              Sign up
+              Créer mon compte
             </Typography>
             <Typography component="h3" my={2} color={color}>
               {formError}
@@ -113,7 +110,7 @@ const RegisterForm = () => {
                 required
                 fullWidth
                 id="lastname"
-                label="lastname"
+                label="Nom"
                 name="lastname"
                 autoFocus
                 helperText={inputError?.lastname}
@@ -124,7 +121,7 @@ const RegisterForm = () => {
                 required
                 fullWidth
                 id="firstname"
-                label="firstname"
+                label="Prénom"
                 name="firstname"
                 autoFocus
                 helperText={inputError?.firstname}
@@ -135,7 +132,7 @@ const RegisterForm = () => {
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                label="Adresse email"
                 name="email"
                 autoFocus
                 helperText={inputError?.mail}
@@ -145,7 +142,7 @@ const RegisterForm = () => {
                 margin="normal"
                 fullWidth
                 id="phone"
-                label="phone"
+                label="Téléphone"
                 name="phone"
                 autoFocus
                 helperText={inputError?.phone}
@@ -156,34 +153,26 @@ const RegisterForm = () => {
                 required
                 fullWidth
                 name="password"
-                label="Password"
+                label="Mot de passe"
                 type="password"
                 id="password"
                 autoComplete="current-password"
                 helperText={inputError?.password}
                 error={Boolean(inputError?.password)}
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                color="error"
               >
-                Sign In
+                Créer mon compte
               </Button>
               <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
                 <Grid item>
-                  <Link href="/auth" variant="body2">
-                    {"Vous avez déjà un compte? Sign in"}
+                  <Link href="/login" variant="body2" style={{ textDecoration: 'none', color: 'black', textEmphasis: '#f13d3d'}}>
+                    {"Vous avez déjà un compte? Me connecter"}
                   </Link>
                 </Grid>
               </Grid>
