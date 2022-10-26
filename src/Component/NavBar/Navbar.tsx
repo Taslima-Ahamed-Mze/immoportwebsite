@@ -139,13 +139,13 @@ const Navbar = () => {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
-                <Typography color="#f13d3d" letterSpacing={3} marginX={10}>{page}</Typography>
+                <Typography color="#f13d3d" letterSpacing={3} marginX={10} fontFamily="Lato" fontSize={20}>{page}</Typography>
               </Button>
             ))}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }} color="error">
               {
                 user.isLoggedIn ?
                   <Avatar alt={user.firstname} src="/static/images/avatar/2.jpg" />
