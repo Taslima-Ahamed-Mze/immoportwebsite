@@ -23,3 +23,24 @@ export const getSingleProperty= async (id:number) => {
 
         })
 }
+
+ export const sendMail = async(
+        mail: string,
+        message: string,
+        id: number
+    )=>{
+    return customAxios
+    .post("property/send-mail", {
+      mail,
+      message,
+      id
+    })
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+        
+      return error.response;
+
+    });
+ }

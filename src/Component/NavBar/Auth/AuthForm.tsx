@@ -24,8 +24,7 @@ const AuthForm = () => {
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+    e.preventDefault();    
     const data = new FormData(e.currentTarget);
     if (data.get("email") || data.get("password")) {
       login(data.get("email") as string, data.get("password") as string)

@@ -14,6 +14,13 @@ export interface Property {
     surface : number |undefined;
     city : string |undefined;
     zipcode : number |undefined;
+    kitchen: {
+        name:string | undefined
+    };
+    heater : {
+        name:string | undefined
+    };
+    features_lists : Array<any> | undefined;
     
 }
 
