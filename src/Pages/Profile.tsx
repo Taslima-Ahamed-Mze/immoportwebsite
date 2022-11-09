@@ -19,6 +19,7 @@ import Alert from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import ClientContext from '../Contexts/ClientContext';
+import { Card, CardContent, CardActions, ListItem, ListItemButton, ListItemText } from '@mui/material';
 
 const Profile = () => {
 
@@ -49,8 +50,9 @@ const Profile = () => {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 600,
-       
+        width: 400,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
         boxShadow: 24,
         p: 4,
     };
@@ -141,47 +143,30 @@ const Profile = () => {
     return (
         <div className="profileWrapper">
 
-            <Paper
-                sx={{
-                    p: 5,
-                    margin: 'auto',
-                    maxWidth: 200,
-                    flexGrow: 1,
-                    // backgroundColor: (theme) =>
-                    //     theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-                }}
-            >
-                <Grid container spacing={5}>
-                    <Grid item xs={12} sm container>
-                        <Grid item xs container direction="column" spacing={3}>
-                            <Grid item xs>
-                                {dataProfile &&
-                                    <Typography gutterBottom variant="subtitle1" component="div">
-                                        {dataProfile.lastname}, {dataProfile.firstname}
-                                    </Typography>}
-
-                                {dataProfile &&
-                                    <Typography variant="body2" gutterBottom>
-                                        {dataProfile.mail}
-                                    </Typography>}
-
-                                {dataProfile &&
-                                    <Typography variant="body2" color="text.secondary">
-                                        {dataProfile.phone}
-                                    </Typography>}
-                            </Grid>
-                            <Grid item>
-                                <Button size="small" onClick={handleOpen}>Modifier mon profil</Button>
-                                <Button size="small" onClick={handleClickOpen}>
-                                    Modifier mon mot de passe
-                                </Button>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-
-                </Grid>
-            </Paper>
-
+            <Grid sx={{ marginY: 5 }}>
+                <Card sx={{ minWidth: 275, maxWidth: 450, marginX: 5, padding: 3 }}>
+                    <CardContent>
+                        {dataProfile &&
+                            <Typography gutterBottom variant="h5" component="div">
+                                {dataProfile.lastname}, {dataProfile.firstname}
+                            </Typography>}
+                        {dataProfile &&
+                            <Typography variant="body2" gutterBottom>
+                                {dataProfile.mail}
+                            </Typography>}
+                        {dataProfile &&
+                            <Typography variant="body2" color="text.secondary">
+                                {dataProfile.phone}
+                            </Typography>}
+                    </CardContent>
+                    <CardActions>
+                        <Button size="small" onClick={handleOpen}>Modifier mon profil</Button>
+                        <Button size="small" onClick={handleClickOpen}>
+                            Modifier mon mot de passe
+                        </Button>
+                    </CardActions>
+                </Card>
+            </Grid>
             {/* Success alert */}
             {openAlert &&
                 <Alert
