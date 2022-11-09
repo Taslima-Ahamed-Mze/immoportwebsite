@@ -21,8 +21,6 @@ import SwiperCore, {
 import { Property } from '../Interface/Property';
 import { getProperties } from '../Api/Property';
 
-
-
 const useStyles = makeStyles({
     media: {
         height: 0,
@@ -108,9 +106,15 @@ const Properties = () => {
                                 </Typography>
                             </CardContent>
                             <CardActions>
-                                <FavoriteIcon color='error'/>
+                                <Button
+                                    key={item.id}
+                                    type="submit"
+                                    variant="contained"
+                                    sx={{ mt: 3, mb: 2, bgcolor: "white" }}>
+                                    <FavoriteIcon color='error' />
+                                </Button>
                                 <Button size="small">
-                                    <Link to={`/property/${item.name}`} style={{ textDecoration: 'none', textTransform: 'uppercase', textEmphasisColor:'color' }} state={item.id}>voir plus</Link>
+                                    <Link to={`/property/${item.name}`} style={{ textDecoration: 'none', textTransform: 'uppercase', textEmphasisColor: 'color' }} state={item.id}>voir plus</Link>
                                 </Button>
                             </CardActions>
                         </Card>
