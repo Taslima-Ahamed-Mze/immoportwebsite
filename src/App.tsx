@@ -16,11 +16,10 @@ function App() {
   const user = useContext(ClientContext);
 
   return (
+      <div className="App">
 
-    <div className="App">
-
-      {/*Component "ThemeProvider" takes DefaultTheme props and applies them to the whole project*/}
-      {/* <ThemeProvider theme={DefaultTheme}> */}
+        {/*Component "ThemeProvider" takes DefaultTheme props and applies them to the whole project*/}
+        {/* <ThemeProvider theme={DefaultTheme}> */}
 
         <Navbar />
         {/*Routes listed*/}
@@ -32,11 +31,11 @@ function App() {
           <Route path="/login" element={<AuthForm />} />
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/espaceclient" element={<Profile />} />
-          <Route path="/property/:name" element={<SingleProperty/>}/>
+          <Route path="/property/:name" element={<SingleProperty />} />
 
         </Routes>
-      {/* </ThemeProvider> */}
-    </div>
+        {/* </ThemeProvider> */}
+      </div>
   );
 }
 

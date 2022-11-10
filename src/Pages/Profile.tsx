@@ -19,7 +19,11 @@ import Alert from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import ClientContext from '../Contexts/ClientContext';
-import { Card, CardContent, CardActions, ListItem, ListItemButton, ListItemText } from '@mui/material';
+import { Card, CardContent, CardActions, ListItem, ListItemButton, ListItemText, styled, Link, ButtonBase } from '@mui/material';
+import { getFavoriteList } from '../Api/Favorites';
+import Favorite from '../Interface/Favorite';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const Profile = () => {
 
@@ -29,6 +33,7 @@ const Profile = () => {
     const [inputError, setInputError] = useState<Password | null>(null); // error update password
     const [inputClientError, setinputClientError] = useState<Client>() // error update client's data
 
+    const [favoriteData, setFavoriteData] = useState<Array<Favorite> | null>(null)
     const user = useContext(ClientContext)
 
     // modal update client's data
@@ -73,6 +78,12 @@ const Profile = () => {
                     setDataProfile({ lastname, firstname, mail, phone })
                     user.login()
                 })
+
+            getFavoriteList(token)
+                .then(response => {
+                    setFavoriteData(response)
+                })
+
         } else {
             setToken(localStorage.getItem('access_token'))
         }
@@ -140,33 +151,91 @@ const Profile = () => {
         }
     }
 
+    const Img = styled('img')({
+        margin: 'auto',
+        display: 'block',
+        maxWidth: '100%',
+        maxHeight: '100%',
+    });
+
     return (
         <div className="profileWrapper">
 
-            <Grid sx={{ marginY: 5 }}>
-                <Card sx={{ minWidth: 275, maxWidth: 450, marginX: 5, padding: 3 }}>
-                    <CardContent>
-                        {dataProfile &&
-                            <Typography gutterBottom variant="h5" component="div">
-                                {dataProfile.lastname}, {dataProfile.firstname}
-                            </Typography>}
-                        {dataProfile &&
-                            <Typography variant="body2" gutterBottom>
-                                {dataProfile.mail}
-                            </Typography>}
-                        {dataProfile &&
-                            <Typography variant="body2" color="text.secondary">
-                                {dataProfile.phone}
-                            </Typography>}
-                    </CardContent>
-                    <CardActions>
-                        <Button size="small" onClick={handleOpen}>Modifier mon profil</Button>
-                        <Button size="small" onClick={handleClickOpen}>
-                            Modifier mon mot de passe
-                        </Button>
-                    </CardActions>
-                </Card>
+            <Grid container columns={{ xs: 4, sm: 8, md: 12 }} sx={{ marginY: 5, alignItems: 'center' }}>
+
+                <Grid item xs={4}>
+                    <Card sx={{ minWidth: 275, maxWidth: 450, marginX: 5, padding: 3 }}>
+                        <CardContent>
+                            {dataProfile &&
+                                <Typography gutterBottom variant="h5" component="div">
+                                    {dataProfile.lastname}, {dataProfile.firstname}
+                                </Typography>}
+                            {dataProfile &&
+                                <Typography variant="body2" gutterBottom>
+                                    {dataProfile.mail}
+                                </Typography>}
+                            {dataProfile &&
+                                <Typography variant="body2" color="text.secondary">
+                                    {dataProfile.phone}
+                                </Typography>}
+                        </CardContent>
+                        <CardActions>
+                            <Button size="small" onClick={handleOpen}>Modifier mon profil</Button>
+                            <Button size="small" onClick={handleClickOpen}>
+                                Modifier mon mot de passe
+                            </Button>
+                        </CardActions>
+                    </Card>
+                </Grid>
+
+                {/* Favorites */}
+                {
+                    favoriteData != null && favoriteData.map(item => (
+                        <Paper
+                            key={item.id}
+                            sx={{
+                                p: 2,
+                                marginX: 2,
+                                maxWidth: 500,
+                                flexGrow: 1,
+                            }}
+                        >
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} sm container>
+                                    <Grid item xs container direction="column" spacing={2}>
+                                        <Grid item xs>
+                                            <Typography gutterBottom variant="subtitle1" component="div">
+                                                {item.favorite_list.name}
+                                            </Typography>
+                                            <Typography variant="body2" gutterBottom>
+                                                {item.favorite_list.address}
+                                            </Typography>
+                                            <Typography variant="body2" color="text.secondary">
+                                                {item.favorite_list.zipcode} - {item.favorite_list.city}
+                                            </Typography>
+                                        </Grid>
+                                        <Grid item xs container direction={'row'}>
+                                            <Grid item>
+                                                <Button href={`/property/${item.favorite_list.name}`}><VisibilityIcon /></Button>
+                                            </Grid>
+                                            <Grid item>
+                                                <Button href={`/property/${item.favorite_list.name}`}><DeleteIcon color='error' /></Button>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid item>
+                                        <Typography variant="subtitle1" component="div">
+                                            {item.favorite_list.price} €
+                                        </Typography>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </Paper>
+
+                    ))
+                }
             </Grid>
+
             {/* Success alert */}
             {openAlert &&
                 <Alert

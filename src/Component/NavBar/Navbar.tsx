@@ -202,12 +202,6 @@ const Navbar = () => {
                   <MenuItem onClick={handleProfile}>
                     <Typography textAlign="center">Mon profil</Typography>
                   </MenuItem>
-                  <MenuItem>
-                    <Typography textAlign="center">Mes favoris</Typography>
-                  </MenuItem>
-                  <MenuItem>
-                    <Typography textAlign="center">Mes documents</Typography>
-                  </MenuItem>
                   <MenuItem onClick={handleLogout}>
                     <Typography textAlign="center">Déconnexion</Typography>
                   </MenuItem>

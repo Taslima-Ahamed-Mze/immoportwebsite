@@ -1,4 +1,5 @@
 interface LoggedClient {
+    id: number | undefined,
     lastname: string | undefined,
     firstname: string | undefined,
     mail: string | undefined,

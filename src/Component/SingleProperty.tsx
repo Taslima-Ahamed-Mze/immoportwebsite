@@ -34,10 +34,6 @@ import { red, green } from "@mui/material/colors";
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 
-
-
-
-
 const useStyles = makeStyles({
     media: {
         height: 0,
@@ -100,8 +96,8 @@ const SingleProperty = () => {
             })
 
     }, [])
-    // gestion formulaire de contact
 
+    // gestion formulaire de contact
     const [inputError, setInputError] = useState<SendMail | null>(null);
     const [formError, setFormError] = useState<string | null>(null);
     const [message, setMessage] = useState<string | null>(null);

@@ -4,6 +4,7 @@ import LoggedClient from "../Interface/LoggedClient";
 import { logoutProfile } from "../Api/Auth";
 
 const ClientContext = createContext<LoggedClient>({
+  id: undefined,
   lastname: undefined,
   firstname: undefined,
   mail: undefined,
@@ -14,6 +15,7 @@ const ClientContext = createContext<LoggedClient>({
 })
 
 export const ClientProvider = ({ children }: Children) => {
+  const [id, setId] = useState<undefined>(undefined)
   const [lastname, setLastname] = useState<undefined>(undefined)
   const [firstname, setFirstname] = useState<undefined>(undefined)
   const [mail, setMail] = useState<undefined>(undefined)
@@ -29,7 +31,8 @@ export const ClientProvider = ({ children }: Children) => {
 
   const logout = () => {
     logoutProfile()
-    setLoggedIn(false);
+    setLoggedIn(false)
+    setId(undefined)
     setLastname(undefined)
     setFirstname(undefined)
     setMail(undefined)
@@ -37,7 +40,7 @@ export const ClientProvider = ({ children }: Children) => {
   }
 
   return (
-    <ClientContext.Provider value={{ lastname, firstname, mail, phone, isLoggedIn, login, logout }}>
+    <ClientContext.Provider value={{ id, lastname, firstname, mail, phone, isLoggedIn, login, logout }}>
       {children}
     </ClientContext.Provider>
   )

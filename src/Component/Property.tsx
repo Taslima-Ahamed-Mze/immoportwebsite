@@ -2,15 +2,14 @@ import * as React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Card from '@mui/material/Card';
 import { makeStyles } from '@mui/styles';
-import CardHeader from '@mui/material/CardHeader';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { useEffect, useState, createContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import SwiperCore, {
     Keyboard,
@@ -20,6 +19,8 @@ import SwiperCore, {
 } from 'swiper/core';
 import { Property } from '../Interface/Property';
 import { getProperties } from '../Api/Property';
+import { addFavorite } from '../Api/Favorites';
+import ClientContext from "../Contexts/ClientContext";
 
 const useStyles = makeStyles({
     media: {
@@ -54,7 +55,6 @@ const Properties = () => {
         getProperties()
             .then(response => {
                 setDataProperty(response)
-                console.log(response);
             })
     }, [])
 
@@ -62,6 +62,19 @@ const Properties = () => {
 
     const { media, swiperContainer } = useStyles()
 
+    const token = localStorage.getItem('access_token')
+    const addFavoriteClick = async (event: any) => {
+        event.preventDefault()
+        console.log(event.target.value)
+        addFavorite(
+            token as string,
+            event.target.value
+        ).then((response) => {
+            console.log("response " + JSON.stringify(response))
+        })
+    }
+    const user = useContext(ClientContext)
+    console.log(user)
     return (
         <Grid container spacing={3} sx={{ p: 4 }}>
             {
@@ -101,18 +114,23 @@ const Properties = () => {
                                         {item.address}
                                     </Typography>
                                 </Typography>
-                                <Typography variant="body2" color="text.secondary" minHeight={50}>
+                                <Typography variant="body2" color="text.secondary" minHeight={60}>
                                     {item.description}
                                 </Typography>
                             </CardContent>
                             <CardActions>
-                                <Button
-                                    key={item.id}
-                                    type="submit"
-                                    variant="contained"
-                                    sx={{ mt: 3, mb: 2, bgcolor: "white" }}>
-                                    <FavoriteIcon color='error' />
-                                </Button>
+                                {user.isLoggedIn &&
+                                    <Button
+                                        id="addFavorite"
+                                        key={item.id}
+                                        value={item.id}
+                                        onClick={addFavoriteClick}
+                                        type="submit"
+                                        variant="contained"
+                                        sx={{ mt: 3, mb: 2, bgcolor: "white" }}>
+                                        <FavoriteIcon color='error' />
+                                    </Button>
+                                }
                                 <Button size="small">
                                     <Link to={`/property/${item.name}`} style={{ textDecoration: 'none', textTransform: 'uppercase', textEmphasisColor: 'color' }} state={item.id}>voir plus</Link>
                                 </Button>
@@ -121,7 +139,7 @@ const Properties = () => {
                     </Grid>
                 ))
             }
-        </Grid>
+        </Grid >
     );
 };
 export default Properties;

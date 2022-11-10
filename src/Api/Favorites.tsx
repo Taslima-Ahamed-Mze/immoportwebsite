@@ -1,31 +1,46 @@
-import { useState, useEffect } from "react";
 import customAxios from "./BaseUrl";
 
-
 // Add favorites
-
 export const addFavorite = async (
-    id: number
+    token: string,
+    id_property: number
 ) => {
     return customAxios
         .post("customer/new-favorite-list", {
-            id
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+            id_property
         })
         .then((response) => {
+            console.log(response)
             return response;
         })
         .catch((error) => {
+            console.log(error.response)
             return error.response;
         })
 };
 
 // Delete favorites
-
-const DeleteFavorite = async (token: string) => { };
+export const deleteFavorite = async (token: string, id: number) => {
+    return customAxios.delete(`customer/my-favorite-list/${id}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    })
+        .then((response) => {
+            console.log(response)
+            return response
+        })
+        .catch((error) => {
+            console.log(error.response)
+            return error.response
+        })
+};
 
 // Call favoriteList when Client is logged in.
-
-const GetFavoriteList = async (token: string) => {
+export const getFavoriteList = async (token: string) => {
 
     return customAxios.get("customer/my-favorite-list", {
         headers: {
@@ -33,8 +48,8 @@ const GetFavoriteList = async (token: string) => {
         },
     })
         .then((response) => {
-            console.log(response);
-            return response.data.favorites;
+            console.log(response.data.favorite_list);
+            return response.data.favorite_list;
         })
         .catch((error) => {
             console.log(error);
