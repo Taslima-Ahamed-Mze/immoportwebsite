@@ -11,28 +11,44 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
-import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import { makeStyles } from "@mui/material";
+import RoomIcon from '@mui/icons-material/Room';
+import PersonIcon from '@mui/icons-material/Person';
+import { makeStyles } from '@mui/styles';
 
-// Add specific styles to items
+const useStyles = makeStyles({
+
+  categButton1: {
+    textTransform: 'capitalize',
+    color: 'black !important',
+    fontFamily: 'HomemadeApple !important',
+    fontSize: '25px !important',
+    marginLeft: '50px !important',
+    '&:hover': {
+      backgroundColor: 'transparent !important',
+      color: '#ff5959 !important',
+    }
+  },
+
+  categButton2: {
+    color: '#f13d3d !important',
+    fontFamily: 'HomemadeApple !important',
+    textTransform: 'lowercase',
+    padding: 0,
+    '&:hover': {
+      backgroundColor: 'transparent !important',
+      color: '#ff5959 !important',
+    }
+  }
+})
 const Navbar = () => {
+  const classes = useStyles();
   const user = useContext(ClientContext)
 
   // Navbar and profile settings links
-  const pages = ["Acheter", "Vendre", "Louer"];
-  // const settings = [
-  //   {
-  //     name: "Connexion",
-  //     path: "/login",
-  //   },
-  //   {
-  //     name: "Nouveau ? (Créer un compte)",
-  //     path: "/register",
-  //   },
-  // ];
+  const pages = ["Acheter", "Louer"];
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -54,12 +70,6 @@ const Navbar = () => {
     setAnchorElUser(null);
   };
 
-  // function stringAvatar(name: string) {
-  //   return {
-  //     children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
-  //   };
-  // }
-
   const navigate = useNavigate();
 
   const handleLogin = () => {
@@ -75,6 +85,9 @@ const Navbar = () => {
   }
   const handleProfile = () => {
     navigate("/espaceclient")
+  }
+  const handleContact = () => {
+    navigate("/contact")
   }
 
   return (
@@ -124,7 +137,7 @@ const Navbar = () => {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Typography className={classes.categButton2}>{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -135,27 +148,30 @@ const Navbar = () => {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
+                className={classes.categButton1}
                 key={page}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
               >
-                <Typography color="#f13d3d" letterSpacing={3} marginX={10} fontFamily="Lato" fontSize={20}>{page}</Typography>
+                <Typography className={classes.categButton1}>{page}</Typography>
               </Button>
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }} color="error">
-              {
-                user.isLoggedIn ?
-                  <Avatar alt={user.firstname} src="/static/images/avatar/2.jpg" />
-                  :
-                  <Avatar src="/static/images/avatar/2.jpg" />
-              }
-            </IconButton>
+          <Box sx={{ marginX: 5 }}>
+            <Button onClick={handleContact} sx={{ p: 0 }} className={classes.categButton2}>
+              <RoomIcon className={classes.categButton2} />
+              <Typography className={classes.categButton2}>nos agences</Typography>
+            </Button>
+          </Box>
+
+          <Box sx={{ marginX: 5 }}>
+            <Button onClick={handleOpenUserMenu} sx={{ p: 0 }} className={classes.categButton2}>
+              <PersonIcon className={classes.categButton2} />
+              <Typography className={classes.categButton2}>mon compte</Typography>
+            </Button>
             <Menu
               sx={{
-                mt: "45px",
+                mt: "35px",
                 px: 3
               }}
               id="menu-appbar"
@@ -194,11 +210,6 @@ const Navbar = () => {
               }
               {user.isLoggedIn &&
                 <>
-                  <Typography textAlign="center">
-                    {user.lastname != undefined &&
-                      <span>Hello {user.firstname} {user.lastname} !</span>
-                    }
-                  </Typography>
                   <MenuItem onClick={handleProfile}>
                     <Typography textAlign="center">Mon profil</Typography>
                   </MenuItem>

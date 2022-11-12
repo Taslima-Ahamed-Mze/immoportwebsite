@@ -15,7 +15,7 @@ import Login from "../../../Interface/Login";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-
+import background from "../../../../src/loginpicture.jpg";
 
 const AuthForm = () => {
   const color = red[500];
@@ -24,7 +24,7 @@ const AuthForm = () => {
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();    
+    e.preventDefault();
     const data = new FormData(e.currentTarget);
     if (data.get("email") || data.get("password")) {
       login(data.get("email") as string, data.get("password") as string)
@@ -61,14 +61,11 @@ const AuthForm = () => {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: "url(https://source.unsplash.com/random)",
-            backgroundRepeat: "no-repeat",
-            backgroundColor: (t) =>
-              t.palette.mode === "light"
-                ? t.palette.grey[50]
-                : t.palette.grey[900],
+            backgroundImage: `url(${background})`,
+            backgroundRepeat: 'no-repeat',
             backgroundSize: "cover",
             backgroundPosition: "center",
+
           }}
         />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
@@ -128,7 +125,7 @@ const AuthForm = () => {
               </Button>
               <Grid container>
                 <Grid item>
-                  <Link href="/register" variant="body2" style={{ textDecoration: 'none', color: 'black', textEmphasis: '#f13d3d'}}>
+                  <Link href="/register" variant="body2" style={{ textDecoration: 'none', color: 'black', textEmphasis: '#f13d3d' }}>
                     {"Vous n'avez pas de compte? Enregistrez-vous!"}
                   </Link>
                 </Grid>
