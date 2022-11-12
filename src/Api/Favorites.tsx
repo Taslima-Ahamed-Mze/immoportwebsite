@@ -2,22 +2,19 @@ import customAxios from "./BaseUrl";
 
 // Add favorites
 export const addFavorite = async (
-    token: string,
-    id_property: number
+    id: number,
+    token: string
 ) => {
     return customAxios
-        .post("customer/new-favorite-list", {
+        .post("customer/new-favorite-list", { id_property: id }, {
             headers: {
                 Authorization: `Bearer ${token}`,
-            },
-            id_property
+            }
         })
         .then((response) => {
-            console.log(response)
             return response;
         })
         .catch((error) => {
-            console.log(error.response)
             return error.response;
         })
 };
@@ -48,11 +45,9 @@ export const getFavoriteList = async (token: string) => {
         },
     })
         .then((response) => {
-            console.log(response.data.favorite_list);
             return response.data.favorite_list;
         })
         .catch((error) => {
-            console.log(error);
             return error.response.data;
         });
 };
