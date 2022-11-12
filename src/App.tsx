@@ -6,6 +6,8 @@ import RegisterForm from './Component/NavBar/Register/RegisterForm';
 import './App.css';
 import Properties from './Component/Property';
 import SingleProperty from './Component/SingleProperty';
+import Contact from './Pages/Contact';
+
 // @ts-ignore
 import { NotificationContainer } from 'react-notifications';
 // @ts-ignore
@@ -22,6 +24,7 @@ function App() {
         <Route path="/login" element={<AuthForm />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/espaceclient" element={<Profile />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/property/:name" element={<SingleProperty />} />
       </Routes>
       <NotificationContainer />
