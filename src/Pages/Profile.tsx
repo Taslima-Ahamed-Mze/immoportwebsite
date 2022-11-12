@@ -25,6 +25,7 @@ import Favorite from '../Interface/Favorite';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { Link } from 'react-router-dom';
 
 const Profile = () => {
 
@@ -224,10 +225,12 @@ const Profile = () => {
                                                 </Grid>
                                                 <Grid item xs container direction={'row'}>
                                                     <Grid item>
-                                                        <Button href={`/property/${item.favorite_list.name}`}><VisibilityIcon /></Button>
+                                                        <Button>
+                                                            <Link to={`/property/${item.favorite_list.id}`} style={{ textDecoration: 'none', textTransform: 'uppercase', textEmphasisColor: 'color' }} state={item.id}><VisibilityIcon /></Link>
+                                                        </Button>
                                                     </Grid>
                                                     <Grid item>
-                                                        <Button href={`/property/${item.favorite_list.name}`}><DeleteIcon color='error' /></Button>
+                                                        <Button href={`/property/${item.favorite_list.id}`}><DeleteIcon color='error' /></Button>
                                                     </Grid>
                                                 </Grid>
                                             </Grid>

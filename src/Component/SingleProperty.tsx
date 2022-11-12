@@ -40,7 +40,6 @@ const useStyles = makeStyles({
         paddingTop: '70%',
     },
     swiperContainer: {
-        paddingBottom: '3rem',
         '& .swiper-pagination-bullet': {
             background: 'red',
 
@@ -61,10 +60,21 @@ const useStyles = makeStyles({
     },
     title: {
         color: 'black',
+        fontFamily: 'Lato-Regular !important',
+        textTransform: 'uppercase'
 
     },
-    titleRed: {
-        color: 'red',
+
+    description: {
+        textTransform: 'uppercase',
+        fontSize: 'smaller !important',
+        fontFamily: 'Lato-Light !important',
+    },
+
+    price: {
+        color: '#f13d3d',
+        marginTop: '20px !important',
+        fontFamily: 'Lato-Regular !important',
     },
     cardinfo: {
         margin: '10px'
@@ -137,7 +147,7 @@ const SingleProperty = () => {
     };
 
     //fin
-    const { media, swiperContainer, title, cardinfo, cardcontact, textarea, titleRed } = useStyles()
+    const { media, swiperContainer, description, title, cardinfo, cardcontact, textarea, price } = useStyles()
 
     return (
         <Grid>
@@ -151,10 +161,9 @@ const SingleProperty = () => {
                             pagination={{ clickable: true }}
                             grabCursor
                             keyboard={{ enabled: true }}
-
                             navigation={Navigation}
+                            className={swiperContainer}
                         >
-
                             {dataProperty && dataProperty.property_pictures?.length ? dataProperty.property_pictures.map((picture, index) => (
                                 <SwiperSlide key={index}>
                                     <CardMedia
@@ -167,7 +176,6 @@ const SingleProperty = () => {
                                 className={media}
                             />}
                         </Swiper>
-
 
                     </Card >
                     <Card sx={{ my: 6 }}>
@@ -214,23 +222,16 @@ const SingleProperty = () => {
 
                 </Grid>
                 <Grid item xs={6} >
-
-
                     <Card className={cardinfo}>
                         <CardContent>
-
-
                             <Typography gutterBottom variant="h4" component="div" className={title}>
                                 {dataProperty?.name}
                             </Typography>
                             <Typography gutterBottom component="div">
                                 {dataProperty?.address + ' ' + dataProperty?.zipcode}
                             </Typography>
-
-                            <Typography>{dataProperty?.description}</Typography>
-
-
-                            <Typography gutterBottom variant="h6" component="div" className={titleRed}>
+                            <Typography className={description}>{dataProperty?.description}</Typography>
+                            <Typography gutterBottom variant="h6" component="div" className={price}>
                                 {dataProperty?.price + ' €'}
                             </Typography>
                         </CardContent>
@@ -240,9 +241,7 @@ const SingleProperty = () => {
 
                     <Card className={cardcontact}>
                         <CardContent >
-                            <Avatar sx={{ bgcolor: "#f13d3d" }}>
-                                <AddIcCallIcon />
-                            </Avatar>
+
                             <Typography component="h3" my={2} color={colorSuccess}>
                                 {message}
                             </Typography>
@@ -256,6 +255,13 @@ const SingleProperty = () => {
                                 onSubmit={handleSubmit}
                                 sx={{ mt: 1 }}
                             >
+                                <AddIcCallIcon sx={{ color: "#f13d3d", border: 1, borderRadius: 5, padding: 1 }} />
+                                <Typography variant='h5' fontFamily={"HomemadeApple"} color="#f13d3d" padding={2}>
+                                    Ce bien vous intéresse ?
+                                </Typography>
+                                <Typography variant='subtitle1' sx={{ padding: 1 }}>
+                                    Contactez vite l'agence pour le visiter !
+                                </Typography>
                                 <TextField
                                     margin="normal"
                                     required

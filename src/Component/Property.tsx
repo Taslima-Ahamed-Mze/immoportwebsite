@@ -182,7 +182,7 @@ const Properties = () => {
                                         }
 
                                         <Button className={classes.seeMoreButton}>
-                                            <Link className={classes.link} to={`/property/${item.name}`} style={{ textDecoration: 'none', textTransform: 'uppercase', textEmphasisColor: 'color' }} state={item.id}>voir plus</Link>
+                                            <Link className={classes.link} to={`/property/${item.id}`} style={{ textDecoration: 'none', textTransform: 'uppercase', textEmphasisColor: 'color' }} state={item.id}>voir plus</Link>
                                         </Button>
                                     </CardActions>
                                 </Card>

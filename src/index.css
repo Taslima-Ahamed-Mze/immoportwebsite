@@ -1,13 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap');
 @font-face {
   font-family: "HomemadeApple";
   src: local("HomemadeApple-Regular"),
     url("./Fonts/HomemadeApple-Regular.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "Lato-Light";
+  src: local("Lato-Light"),
+    url("./Fonts/Lato-Light.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Lato-Regular";
+  src: local("Lato-Regular"),
+    url("./Fonts/Lato-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Lato-Thin";
+  src: local("Lato-Thin"),
+    url("./Fonts/Lato-Thin.ttf") format("truetype");
+}
+
 html,
 body {
-  font-family: 'Lato', sans-serif;
+  font-family: 'Lato-Regular', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
