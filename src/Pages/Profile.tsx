@@ -19,11 +19,12 @@ import Alert from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import ClientContext from '../Contexts/ClientContext';
-import { Card, CardContent, CardActions, ListItem, ListItemButton, ListItemText, styled, Link, ButtonBase } from '@mui/material';
+import { Card, CardContent, CardActions, styled } from '@mui/material';
 import { getFavoriteList } from '../Api/Favorites';
 import Favorite from '../Interface/Favorite';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const Profile = () => {
 
@@ -161,13 +162,13 @@ const Profile = () => {
     return (
         <div className="profileWrapper">
 
-            <Grid container columns={{ xs: 4, sm: 8, md: 12 }} sx={{ marginY: 5, alignItems: 'center' }}>
+            <Grid container sx={{ marginY: 5 }} display="grid">
 
-                <Grid item xs={4}>
-                    <Card sx={{ minWidth: 275, maxWidth: 450, marginX: 5, padding: 3 }}>
+                <Grid item xs={12} margin="auto">
+                    <Card sx={{ minWidth: 275, maxWidth: 450, padding: 3, marginBottom: 5 }}>
                         <CardContent>
                             {dataProfile &&
-                                <Typography gutterBottom variant="h5" component="div">
+                                <Typography gutterBottom variant="h5" component="div" fontFamily={"HomemadeApple"}>
                                     {dataProfile.lastname}, {dataProfile.firstname}
                                 </Typography>}
                             {dataProfile &&
@@ -189,51 +190,60 @@ const Profile = () => {
                 </Grid>
 
                 {/* Favorites */}
-                {
-                    favoriteData != null && favoriteData.map(item => (
-                        <Paper
-                            key={item.id}
-                            sx={{
-                                p: 2,
-                                marginX: 2,
-                                maxWidth: 500,
-                                flexGrow: 1,
-                            }}
-                        >
-                            <Grid container spacing={2}>
-                                <Grid item xs={12} sm container>
-                                    <Grid item xs container direction="column" spacing={2}>
-                                        <Grid item xs>
-                                            <Typography gutterBottom variant="subtitle1" component="div">
-                                                {item.favorite_list.name}
-                                            </Typography>
-                                            <Typography variant="body2" gutterBottom>
-                                                {item.favorite_list.address}
-                                            </Typography>
-                                            <Typography variant="body2" color="text.secondary">
-                                                {item.favorite_list.zipcode} - {item.favorite_list.city}
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item xs container direction={'row'}>
-                                            <Grid item>
-                                                <Button href={`/property/${item.favorite_list.name}`}><VisibilityIcon /></Button>
+                <Grid item xs={12}>
+                    <Typography textAlign={'center'} variant="h5" fontFamily={"HomemadeApple"}>                     <FavoriteIcon sx={{ marginRight: 2, color: '#f13d3d' }} />
+                        Mes Favoris
+                    </Typography>
+                    <Grid container direction="row">
+                        {
+                            favoriteData != null && favoriteData.map(item => (
+                                <Paper
+                                    key={item.id}
+                                    sx={{
+                                        p: 2,
+                                        marginX: 2,
+                                        marginY: 2,
+                                        maxWidth: 400,
+                                        flexGrow: 1,
+                                        marginBottom: 3,
+                                    }}
+                                >
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={12} sm container>
+                                            <Grid item xs container direction="column" spacing={2}>
+                                                <Grid item xs>
+                                                    <Typography gutterBottom variant="subtitle1" component="div">
+                                                        {item.favorite_list.name}
+                                                    </Typography>
+                                                    <Typography variant="body2" gutterBottom>
+                                                        {item.favorite_list.address}
+                                                    </Typography>
+                                                    <Typography variant="body2" color="text.secondary">
+                                                        {item.favorite_list.zipcode} - {item.favorite_list.city}
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item xs container direction={'row'}>
+                                                    <Grid item>
+                                                        <Button href={`/property/${item.favorite_list.name}`}><VisibilityIcon /></Button>
+                                                    </Grid>
+                                                    <Grid item>
+                                                        <Button href={`/property/${item.favorite_list.name}`}><DeleteIcon color='error' /></Button>
+                                                    </Grid>
+                                                </Grid>
                                             </Grid>
                                             <Grid item>
-                                                <Button href={`/property/${item.favorite_list.name}`}><DeleteIcon color='error' /></Button>
+                                                <Typography variant="subtitle1" component="div">
+                                                    {item.favorite_list.price} €
+                                                </Typography>
                                             </Grid>
                                         </Grid>
                                     </Grid>
-                                    <Grid item>
-                                        <Typography variant="subtitle1" component="div">
-                                            {item.favorite_list.price} €
-                                        </Typography>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                        </Paper>
+                                </Paper>
 
-                    ))
-                }
+                            ))
+                        }
+                    </Grid>
+                </Grid>
             </Grid>
 
             {/* Success alert */}
