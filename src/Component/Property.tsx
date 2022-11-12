@@ -21,6 +21,9 @@ import { Property } from '../Interface/Property';
 import { getProperties } from '../Api/Property';
 import { addFavorite } from '../Api/Favorites';
 import ClientContext from "../Contexts/ClientContext";
+import { Tooltip } from '@mui/material';
+// @ts-ignore
+import { NotificationManager } from 'react-notifications';
 
 const useStyles = makeStyles({
     media: {
@@ -64,17 +67,23 @@ const Properties = () => {
 
     const token = localStorage.getItem('access_token')
     const addFavoriteClick = async (event: any) => {
-        event.preventDefault()
-        console.log(event.target.value)
+        const propertyId = event.target.value
+        console.log(propertyId)
         addFavorite(
-            token as string,
-            event.target.value
+            propertyId as number,
+            token as string
         ).then((response) => {
+            if(response.status == 201) {
+                NotificationManager.success("Ce bien a été ajouté à vos favoris.");
+            }
+            else if (response.status == 409) {
+                NotificationManager.error(JSON.stringify(response));
+            }
             console.log("response " + JSON.stringify(response))
         })
     }
     const user = useContext(ClientContext)
-    console.log(user)
+
     return (
         <Grid container spacing={3} sx={{ p: 4 }}>
             {
@@ -120,16 +129,18 @@ const Properties = () => {
                             </CardContent>
                             <CardActions>
                                 {user.isLoggedIn &&
-                                    <Button
-                                        id="addFavorite"
-                                        key={item.id}
-                                        value={item.id}
-                                        onClick={addFavoriteClick}
-                                        type="submit"
-                                        variant="contained"
-                                        sx={{ mt: 3, mb: 2, bgcolor: "white" }}>
-                                        <FavoriteIcon color='error' />
-                                    </Button>
+                                    <Tooltip title="Ajouter à mes favoris" placement="top">
+                                        <Button
+                                            id="addFavorite"
+                                            key={item.id}
+                                            value={item.id}
+                                            onClick={addFavoriteClick}
+                                            type="submit"
+                                            variant="contained"
+                                            sx={{ mt: 3, mb: 2, bgcolor: "white" }}>
+                                            <FavoriteIcon color='error' />
+                                        </Button>
+                                    </Tooltip>
                                 }
                                 <Button size="small">
                                     <Link to={`/property/${item.name}`} style={{ textDecoration: 'none', textTransform: 'uppercase', textEmphasisColor: 'color' }} state={item.id}>voir plus</Link>
