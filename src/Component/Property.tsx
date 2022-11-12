@@ -49,10 +49,43 @@ const useStyles = makeStyles({
             color: 'red',
         },
     },
+
+    likeButton: {
+        background: "white !important",
+        borderRadius: '0 !important',
+        minWidth: '4px !important'
+    },
+
+    likeIcon: {
+        color: "#f13d3d !important",
+        '&:hover': {
+            color: '#ff5959 !important',
+        }
+    },
+
+    seeMoreButton: {
+        background: 'black !important',
+        color: 'white !important',
+        borderRadius: '0 !important',
+        fontSize: 'small !important',
+        paddingInline: '48px !important',
+        '&:hover': {
+            backgroundColor: '#bdbdbd !important',
+            color: 'white !important',
+        }
+    },
+
+    link: {
+        '&:visited': {
+            color: 'white !important'
+        }
+    }
+
 })
 
 const Properties = () => {
     const [dataProperty, setDataProperty] = useState<Array<Property> | null>(null)
+    const classes = useStyles();
 
     useEffect(() => {
         getProperties()
@@ -63,93 +96,101 @@ const Properties = () => {
 
     SwiperCore.use([Keyboard, Scrollbar, Pagination, Navigation])
 
-    const { media, swiperContainer } = useStyles()
-
     const token = localStorage.getItem('access_token')
     const addFavoriteClick = async (event: any) => {
+        event.preventDefault()
         const propertyId = event.target.value
         console.log(propertyId)
         addFavorite(
             propertyId as number,
             token as string
         ).then((response) => {
-            if(response.status == 201) {
-                NotificationManager.success("Ce bien a été ajouté à vos favoris.");
+            if (response.status == 201) {
+                NotificationManager.success("Ce bien a été ajouté à vos favoris.", ':)', 2000);
             }
             else if (response.status == 409) {
-                NotificationManager.error(JSON.stringify(response));
+                NotificationManager.error(JSON.stringify(response.data.message), 'Error!');
             }
-            console.log("response " + JSON.stringify(response))
         })
     }
     const user = useContext(ClientContext)
 
     return (
-        <Grid container spacing={3} sx={{ p: 4 }}>
-            {
-                dataProperty != null && dataProperty.map(item => (
+        <Grid container spacing={3} sx={{ p: 5 }}>
+            <Grid item xs={12}>
+                <Typography textAlign={"center"} color="#f13d3d" fontFamily={"HomemadeApple"} variant="h4">nos dernières offres</Typography>
+            </Grid>
+            <Grid item xs={12}>
+                <Grid container direction="row">
+                    {
+                        dataProperty != null && dataProperty.map(item => (
 
-                    <Grid item xs={4}>
-                        <Card>
-                            {/*  <CardHeader
+                            <Grid item xs={12} lg={4} sx={{ p: 2 }}>
+                                <Card>
+                                    {/*  <CardHeader
                                 title={item.name}
                                 subheader={item.address}
                             /> */}
-                            <Swiper
-                                pagination={{ clickable: true }}
-                                grabCursor
-                                keyboard={{ enabled: true }}
-                                className={swiperContainer}
-                                navigation={Navigation}
-                            >
+                                    <Swiper
+                                        pagination={{ clickable: true }}
+                                        grabCursor
+                                        keyboard={{ enabled: true }}
+                                        className={classes.swiperContainer}
+                                        navigation={Navigation}
+                                    >
 
-                                {item.property_pictures?.length ? item.property_pictures.map((picture, index) => (
-                                    <SwiperSlide key={index}>
+                                        {item.property_pictures?.length ? item.property_pictures.map((picture, index) => (
+                                            <SwiperSlide key={index}>
 
-                                        <CardMedia
-                                            image={picture.path}
-                                            className={media}
-                                        />
-                                    </SwiperSlide>
-                                )) : <CardMedia
-                                    image={'https://us.123rf.com/450wm/romanbykhalets/romanbykhalets1909/romanbykhalets190900245/131068993-ic%C3%B4ne-isol%C3%A9-de-l-image-symbole-de-la-galerie-signe-d-image-pour-le-web-ou-l-application-.jpg?ver=6'}
-                                    className={media}
-                                />}
-                            </Swiper>
-                            <CardContent>
-                                <Typography gutterBottom variant="h5" component="div">
-                                    {item.name}
-                                    <Typography color="text.primary">
-                                        {item.address}
-                                    </Typography>
-                                </Typography>
-                                <Typography variant="body2" color="text.secondary" minHeight={60}>
-                                    {item.description}
-                                </Typography>
-                            </CardContent>
-                            <CardActions>
-                                {user.isLoggedIn &&
-                                    <Tooltip title="Ajouter à mes favoris" placement="top">
-                                        <Button
-                                            id="addFavorite"
-                                            key={item.id}
-                                            value={item.id}
-                                            onClick={addFavoriteClick}
-                                            type="submit"
-                                            variant="contained"
-                                            sx={{ mt: 3, mb: 2, bgcolor: "white" }}>
-                                            <FavoriteIcon color='error' />
+                                                <CardMedia
+                                                    image={picture.path}
+                                                    className={classes.media}
+                                                />
+                                            </SwiperSlide>
+                                        )) : <CardMedia
+                                            image={'https://us.123rf.com/450wm/romanbykhalets/romanbykhalets1909/romanbykhalets190900245/131068993-ic%C3%B4ne-isol%C3%A9-de-l-image-symbole-de-la-galerie-signe-d-image-pour-le-web-ou-l-application-.jpg?ver=6'}
+                                            className={classes.media}
+                                        />}
+                                    </Swiper>
+                                    <CardContent>
+                                        <Typography gutterBottom variant="h5" component="div">
+                                            {item.name}
+                                            <Typography color="text.primary">
+                                                {item.address}
+                                            </Typography>
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary" minHeight={60}>
+                                            {item.description}
+                                        </Typography>
+                                    </CardContent>
+                                    <CardActions>
+                                        {user.isLoggedIn &&
+                                            <Tooltip title="Ajouter à mes favoris" placement="top">
+                                                <Button
+                                                    id="addFavorite"
+                                                    key={item.id}
+                                                    value={item.id}
+                                                    onClick={addFavoriteClick}
+                                                    type="submit"
+                                                    className={classes.likeButton}
+                                                    variant="contained"
+                                                    size="small"
+                                                >
+                                                    <FavoriteIcon className={classes.likeIcon} />
+                                                </Button>
+                                            </Tooltip>
+                                        }
+
+                                        <Button className={classes.seeMoreButton}>
+                                            <Link className={classes.link} to={`/property/${item.name}`} style={{ textDecoration: 'none', textTransform: 'uppercase', textEmphasisColor: 'color' }} state={item.id}>voir plus</Link>
                                         </Button>
-                                    </Tooltip>
-                                }
-                                <Button size="small">
-                                    <Link to={`/property/${item.name}`} style={{ textDecoration: 'none', textTransform: 'uppercase', textEmphasisColor: 'color' }} state={item.id}>voir plus</Link>
-                                </Button>
-                            </CardActions>
-                        </Card>
-                    </Grid>
-                ))
-            }
+                                    </CardActions>
+                                </Card>
+                            </Grid>
+                        ))
+                    }
+                </Grid>
+            </Grid>
         </Grid >
     );
 };
