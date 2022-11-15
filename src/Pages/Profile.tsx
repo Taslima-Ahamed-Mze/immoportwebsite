@@ -15,11 +15,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Password from '../Interface/Password';
 import Client from '../Interface/Client';
-import Alert from '@mui/material/Alert';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
 import ClientContext from '../Contexts/ClientContext';
-import { Card, CardContent, CardActions, styled } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import { Card, CardContent, CardActions, Tooltip } from '@mui/material';
 import { deleteFavorite, getFavoriteList } from '../Api/Favorites';
 import Favorite from '../Interface/Favorite';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -29,23 +27,37 @@ import { Link } from 'react-router-dom';
 // @ts-ignore
 import { NotificationManager } from 'react-notifications';
 
-const style = {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
+const useStyles = makeStyles({
+    submitUpdateButton: {
+        background: 'black !important',
+        color: 'white !important',
+        borderRadius: '0 !important',
+        fontSize: 'small !important',
+        paddingInline: '48px !important',
+        '&:hover': {
+            backgroundColor: '#bdbdbd !important',
+            color: 'white !important',
+        }
+    },
+
+    box: {
+        position: 'absolute' as 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        backgroundColor: 'white',
+        border: '2px solid #000',
+        padding: 40,
+    }
+});
 
 const Profile = () => {
 
+    const classes = useStyles()
     const [token, setToken] = useState<string | null>(null)
     const [dataProfile, setDataProfile] = useState<Client>()
-    const [inputError, setInputError] = useState<Password | null>(null); // error update password
+    const [inputError, setInputError] = useState<Password | null>(null) // error update password
     const [inputClientError, setinputClientError] = useState<Client>() // error update client's data
 
     const [favoriteData, setFavoriteData] = useState<Array<Favorite> | null>(null)
@@ -194,8 +206,8 @@ const Profile = () => {
                                 </Typography>}
                         </CardContent>
                         <CardActions>
-                            <Button size="small" onClick={handleOpen}>Modifier mon profil</Button>
-                            <Button size="small" onClick={handleClickOpen}>
+                            <Button className={classes.submitUpdateButton} sx={{ padding: 0 }} size="small" onClick={handleOpen}>Modifier mon profil</Button>
+                            <Button className={classes.submitUpdateButton} sx={{ padding: 0 }} size="small" onClick={handleClickOpen}>
                                 Modifier mon mot de passe
                             </Button>
                         </CardActions>
@@ -237,22 +249,26 @@ const Profile = () => {
                                                 </Grid>
                                                 <Grid item xs container direction={'row'}>
                                                     <Grid item>
-                                                        <Button>
-                                                            <Link to={`/property/${item.favorite_list.id}`}
-                                                                style={{ textDecoration: 'none', textTransform: 'uppercase', textEmphasisColor: 'color' }}
-                                                                state={item.favorite_list.id}>
-                                                                <VisibilityIcon />
-                                                            </Link>
-                                                        </Button>
+                                                        <Tooltip title="Voir" placement="top">
+                                                            <Button>
+                                                                <Link to={`/property/${item.favorite_list.id}`}
+                                                                    style={{ textDecoration: 'none', textTransform: 'uppercase', textEmphasisColor: 'color' }}
+                                                                    state={item.favorite_list.id}>
+                                                                    <VisibilityIcon />
+                                                                </Link>
+                                                            </Button>
+                                                        </Tooltip>
                                                     </Grid>
                                                     <Grid item>
-                                                        <Button
-                                                            key={item.favorite_list.id}
-                                                            value={item.favorite_list.id}
-                                                            onClick={deleteFavoriteClick}
-                                                            type='submit'>
-                                                            <DeleteIcon color='error' />
-                                                        </Button>
+                                                        <Tooltip title="Supprimer" placement="top">
+                                                            <Button
+                                                                key={item.favorite_list.id}
+                                                                value={item.favorite_list.id}
+                                                                onClick={deleteFavoriteClick}
+                                                                type='submit'>
+                                                                <DeleteIcon color='error' />
+                                                            </Button>
+                                                        </Tooltip>
                                                     </Grid>
                                                 </Grid>
                                             </Grid>
@@ -291,16 +307,16 @@ const Profile = () => {
             </Grid>
 
             {/* begin modal update data */}
-            <Modal
+            <Dialog
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={style} textAlign="center">
-                    <Typography id="modal-modal-title" variant="h6" component="h2" >
+                <Box textAlign="center">
+                    <DialogTitle id="modal-modal-title">
                         Modifier mon profil
-                    </Typography>
+                    </DialogTitle>
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                         <Box
                             component="form"
@@ -311,62 +327,64 @@ const Profile = () => {
                             autoComplete="off"
                             onSubmit={handleSubmit}
                         >
-                            {dataProfile &&
-                                <TextField
-                                    id="outlined-helperText"
-                                    label="Nom"
-                                    name="lastname"
-                                    defaultValue={dataProfile.lastname}
-                                    helperText={inputClientError?.lastname}
-                                    error={Boolean(inputClientError?.lastname)}
-                                />}
-                            {dataProfile &&
-                                <TextField
-                                    id="outlined-helperText"
-                                    label="Prénom"
-                                    name="firstname"
-                                    defaultValue={dataProfile.firstname}
-                                    helperText={inputClientError?.firstname}
-                                    error={Boolean(inputClientError?.firstname)}
-                                />}
-                            {dataProfile &&
-                                <TextField
-                                    id="outlined-helperText"
-                                    label="Mail"
-                                    name="mail"
-                                    defaultValue={dataProfile.mail}
-                                    helperText={inputClientError?.mail}
-                                    error={Boolean(inputClientError?.mail)}
-                                />}
-                            {dataProfile &&
-                                <TextField
-                                    id="outlined-number"
-                                    label="Téléphone"
-                                    type="number"
-                                    name="phone"
-                                    defaultValue={dataProfile.phone}
-                                    InputProps={{ inputProps: { min: 0, max: 9 } }}
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                    helperText={inputClientError?.phone}
-                                    error={Boolean(inputClientError?.phone)}
-                                />}
-
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
-                            >
-                                Enregistrer
-                            </Button>
-                            <Button onClick={handleClose}
-                            >Annuler</Button>
+                            <DialogContent>
+                                {dataProfile &&
+                                    <TextField
+                                        id="outlined-helperText"
+                                        label="Nom"
+                                        name="lastname"
+                                        defaultValue={dataProfile.lastname}
+                                        helperText={inputClientError?.lastname}
+                                        error={Boolean(inputClientError?.lastname)}
+                                    />}
+                                {dataProfile &&
+                                    <TextField
+                                        id="outlined-helperText"
+                                        label="Prénom"
+                                        name="firstname"
+                                        defaultValue={dataProfile.firstname}
+                                        helperText={inputClientError?.firstname}
+                                        error={Boolean(inputClientError?.firstname)}
+                                    />}
+                                {dataProfile &&
+                                    <TextField
+                                        id="outlined-helperText"
+                                        label="Mail"
+                                        name="mail"
+                                        defaultValue={dataProfile.mail}
+                                        helperText={inputClientError?.mail}
+                                        error={Boolean(inputClientError?.mail)}
+                                    />}
+                                {dataProfile &&
+                                    <TextField
+                                        id="outlined-number"
+                                        label="Téléphone"
+                                        type="number"
+                                        name="phone"
+                                        defaultValue={dataProfile.phone}
+                                        InputProps={{ inputProps: { min: 0, max: 9 } }}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        helperText={inputClientError?.phone}
+                                        error={Boolean(inputClientError?.phone)}
+                                    />}
+                            </DialogContent>
+                            <DialogActions sx={{ justifyContent: 'center' }}>
+                                <Button
+                                    className={classes.submitUpdateButton}
+                                    type="submit"
+                                    sx={{ mt: 3, mb: 2 }}
+                                >
+                                    Enregistrer
+                                </Button>
+                                <Button onClick={handleClose} color='error'
+                                >Annuler</Button>
+                            </DialogActions>
                         </Box>
                     </Typography>
                 </Box>
-            </Modal>
+            </Dialog>
             {/* end modal update data */}
 
             {/* begin modal update password */}
@@ -398,16 +416,14 @@ const Profile = () => {
                             error={Boolean(inputError?.password)}
                         />
                     </DialogContent>
-                    <DialogActions>
+                    <DialogActions sx={{ justifyContent: 'center' }}>
                         <Button
-                            size="small"
+                            className={classes.submitUpdateButton}
                             type="submit"
-                            fullWidth
-                            variant="contained"
                         >
                             Enregistrer
                         </Button>
-                        <Button onClick={handleClickClose}>Annuler</Button>
+                        <Button onClick={handleClickClose} color='error'>Annuler</Button>
                     </DialogActions>
                 </Box>
             </Dialog>
