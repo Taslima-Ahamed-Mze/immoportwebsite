@@ -20,18 +20,31 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import ClientContext from '../Contexts/ClientContext';
 import { Card, CardContent, CardActions, styled } from '@mui/material';
-import { getFavoriteList } from '../Api/Favorites';
+import { deleteFavorite, getFavoriteList } from '../Api/Favorites';
 import Favorite from '../Interface/Favorite';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Link } from 'react-router-dom';
+// @ts-ignore
+import { NotificationManager } from 'react-notifications';
+
+const style = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+};
 
 const Profile = () => {
 
     const [token, setToken] = useState<string | null>(null)
     const [dataProfile, setDataProfile] = useState<Client>()
-    console.log(dataProfile) // old et new datas
     const [inputError, setInputError] = useState<Password | null>(null); // error update password
     const [inputClientError, setinputClientError] = useState<Client>() // error update client's data
 
@@ -48,24 +61,15 @@ const Profile = () => {
     const handleClickOpen = () => setOpenDialog(true);
     const handleClickClose = () => setOpenDialog(false);
 
-    // sucess alert
-    const [openAlert, setAlert] = useState(false);
-    const [alertContent, setAlertContent] = useState('');
+    // modal confirmation delete favorite
+    const [openDialogDeleteFavorite, setOpenDialogDeleteFavorite] = useState(false);
+    const handleClickOpenDeleteFavorite = () => setOpenDialogDeleteFavorite(true);
+    const handleClickCloseDeleteFavorite = () => setOpenDialogDeleteFavorite(false);
 
-    const style = {
-        position: 'absolute' as 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 400,
-        bgcolor: 'background.paper',
-        border: '2px solid #000',
-        boxShadow: 24,
-        p: 4,
-    };
+    const WAIT_TIME = 1000;
 
     useEffect(() => {
-
+        // const id = setInterval(() => {
         if (token != null) {
             getProfile(token)
                 .then(response => {
@@ -89,6 +93,7 @@ const Profile = () => {
         } else {
             setToken(localStorage.getItem('access_token'))
         }
+        // }, WAIT_TIME)
 
     }, [token])
 
@@ -104,9 +109,8 @@ const Profile = () => {
                 .then(response => {
                     if (response.status == 200) {
                         setDataProfile(response.data)
-                        setAlertContent(response.data.message);
-                        setAlert(true)
                         setOpen(false)
+                        NotificationManager.success("Votre profil a bien été modifié !", ':)', 2000);
                     } else if (response.status == 422) {
                         const { lastname, firstname, mail, phone }: Client = response.data;
                         const updateInterface: Client = {
@@ -132,11 +136,9 @@ const Profile = () => {
             updatePassword(token as string, data.get('password') as string)
                 .then(response => {
                     if (response.status == 200) {
-                        setAlertContent(response.data.message);
-                        setAlert(true)
-                        window.location.reload()
+                        setOpenDialog(false)
+                        NotificationManager.success("Votre mot de passe a bien été modifié !", ':)', 2000);
                     } else if (response.status == 422) {
-
                         const { password }: Password = response.data
                         const updatePasswordInterface: Password = {
                             password: password
@@ -153,12 +155,22 @@ const Profile = () => {
         }
     }
 
-    const Img = styled('img')({
-        margin: 'auto',
-        display: 'block',
-        maxWidth: '100%',
-        maxHeight: '100%',
-    });
+    const deleteFavoriteClick = async (event: any) => {
+        const favoriteId = event.currentTarget.value
+        console.log(favoriteId)
+        deleteFavorite(
+            token as string,
+            favoriteId as number,
+        ).then((response) => {
+            console.log(response.data)
+            setOpenDialogDeleteFavorite(false)
+            if (response.status == 200) {
+                NotificationManager.success(response.data)
+            } else {
+                NotificationManager.error(response.data.message)
+            }
+        })
+    }
 
     return (
         <div className="profileWrapper">
@@ -198,7 +210,7 @@ const Profile = () => {
                     <Grid container direction="row">
                         {
                             favoriteData != null && favoriteData.map(item => (
-                                <Paper
+                                <><Paper
                                     key={item.id}
                                     sx={{
                                         p: 2,
@@ -226,11 +238,21 @@ const Profile = () => {
                                                 <Grid item xs container direction={'row'}>
                                                     <Grid item>
                                                         <Button>
-                                                            <Link to={`/property/${item.favorite_list.id}`} style={{ textDecoration: 'none', textTransform: 'uppercase', textEmphasisColor: 'color' }} state={item.id}><VisibilityIcon /></Link>
+                                                            <Link to={`/property/${item.favorite_list.id}`}
+                                                                style={{ textDecoration: 'none', textTransform: 'uppercase', textEmphasisColor: 'color' }}
+                                                                state={item.favorite_list.id}>
+                                                                <VisibilityIcon />
+                                                            </Link>
                                                         </Button>
                                                     </Grid>
                                                     <Grid item>
-                                                        <Button href={`/property/${item.favorite_list.id}`}><DeleteIcon color='error' /></Button>
+                                                        <Button
+                                                            key={item.favorite_list.id}
+                                                            value={item.favorite_list.id}
+                                                            onClick={deleteFavoriteClick}
+                                                            type='submit'>
+                                                            <DeleteIcon color='error' />
+                                                        </Button>
                                                     </Grid>
                                                 </Grid>
                                             </Grid>
@@ -242,33 +264,31 @@ const Profile = () => {
                                         </Grid>
                                     </Grid>
                                 </Paper>
-
+                                    <Dialog
+                                        open={openDialogDeleteFavorite}
+                                        onClose={handleClickCloseDeleteFavorite}
+                                    >
+                                        <DialogTitle>Confirmation suppression</DialogTitle>
+                                        <DialogContent>
+                                            <Typography>Voulez-vous vraiment supprimer ce bien immobilier de votre liste de favoris? </Typography>
+                                        </DialogContent>
+                                        <DialogActions>
+                                            <Typography>{item.favorite_list.id}</Typography>
+                                            <Button
+                                                id="deleteFavorite"
+                                                onClick={deleteFavoriteClick}
+                                                type='submit'
+                                            >
+                                                Supprimer
+                                            </Button>
+                                            <Button onClick={handleClickCloseDeleteFavorite}>Annuler</Button>
+                                        </DialogActions>
+                                    </Dialog></>
                             ))
                         }
                     </Grid>
                 </Grid>
             </Grid>
-
-            {/* Success alert */}
-            {openAlert &&
-                <Alert
-                    action={
-                        <IconButton
-                            aria-label="close"
-                            color="inherit"
-                            size="small"
-                            onClick={() => {
-                                setAlert(false);
-                            }}
-                        >
-                            <CloseIcon fontSize="inherit" />
-                        </IconButton>
-                    }
-                    sx={{ mb: 2 }}
-                    severity="info">
-                    {alertContent}
-                </Alert>
-            }
 
             {/* begin modal update data */}
             <Modal
@@ -391,6 +411,8 @@ const Profile = () => {
                     </DialogActions>
                 </Box>
             </Dialog>
+
+
             {/* end modal update password */}
         </div >
     )

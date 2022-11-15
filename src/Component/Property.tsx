@@ -98,8 +98,7 @@ const Properties = () => {
 
     const token = localStorage.getItem('access_token')
     const addFavoriteClick = async (event: any) => {
-        event.preventDefault()
-        const propertyId = event.target.value
+        const propertyId = event.currentTarget.value
         console.log(propertyId)
         addFavorite(
             propertyId as number,
@@ -107,6 +106,9 @@ const Properties = () => {
         ).then((response) => {
             if (response.status == 201) {
                 NotificationManager.success("Ce bien a été ajouté à vos favoris.", ':)', 2000);
+            }
+            else if (response.status == 422) {
+                NotificationManager.warning(response.data.id_property[0])
             }
             else if (response.status == 409) {
                 NotificationManager.error(JSON.stringify(response.data.message), 'Error!');
