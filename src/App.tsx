@@ -4,7 +4,7 @@ import Navbar from './Component/NavBar/Navbar';
 import Profile from './Pages/Profile';
 import RegisterForm from './Component/NavBar/Register/RegisterForm';
 import './App.css';
-import Properties from './Component/Property';
+import HomePage from './Component/HomePage';
 import SingleProperty from './Component/SingleProperty';
 import Contact from './Pages/Contact';
 
@@ -20,12 +20,12 @@ function App() {
       <Navbar />
       {/*Routes listed*/}
       <Routes>
-        <Route path="/" element={<Properties />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<AuthForm />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/espaceclient" element={<Profile />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/property/:name" element={<SingleProperty />} />
+        <Route path="/property/:id" element={<SingleProperty />} />
       </Routes>
       <NotificationContainer />
     </div>

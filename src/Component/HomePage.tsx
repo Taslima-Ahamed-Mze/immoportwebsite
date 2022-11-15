@@ -83,7 +83,7 @@ const useStyles = makeStyles({
 
 })
 
-const Properties = () => {
+const HomePage = () => {
     const [dataProperty, setDataProperty] = useState<Array<Property> | null>(null)
     const classes = useStyles();
 
@@ -196,4 +196,4 @@ const Properties = () => {
         </Grid >
     );
 };
-export default Properties;
+export default HomePage;

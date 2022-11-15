@@ -254,7 +254,7 @@ const Profile = () => {
                                                                 <Link to={`/property/${item.favorite_list.id}`}
                                                                     style={{ textDecoration: 'none', textTransform: 'uppercase', textEmphasisColor: 'color' }}
                                                                     state={item.favorite_list.id}>
-                                                                    <VisibilityIcon />
+                                                                    <VisibilityIcon color='info'/>
                                                                 </Link>
                                                             </Button>
                                                         </Tooltip>

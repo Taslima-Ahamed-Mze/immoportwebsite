@@ -3,7 +3,7 @@ import AuthForm from "../Component/NavBar/Auth/AuthForm"
 import RegisterForm from "../Component/NavBar/Register/RegisterForm";
 import Profile from "../Pages/Profile";
 import PageNotFound from "../Pages/PageNotFound";
-import Property from "../Component/Property"
+import Property from "../Component/HomePage"
 import ClientContext from "../Contexts/ClientContext";
 import { Navigate, Outlet } from "react-router-dom";
 
