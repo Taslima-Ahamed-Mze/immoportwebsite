@@ -16,7 +16,7 @@ import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Register from "../../../Interface/Register";
-
+import background from "../../../../src/registerpicture.jpg";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
@@ -73,7 +73,7 @@ const RegisterForm = () => {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: "url(https://source.unsplash.com/random)",
+            backgroundImage: `url(${background})`,
             backgroundRepeat: "no-repeat",
             backgroundColor: (t) =>
               t.palette.mode === "light"
