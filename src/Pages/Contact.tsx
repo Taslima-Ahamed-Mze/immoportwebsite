@@ -22,17 +22,12 @@ const Contact = () => {
     return (
         <div>
             <Grid container spacing={3} justifyContent="center">
-
-                {
+                <Grid item xs={12}>
+                    <Typography sx={{marginTop: 5}} textAlign={"center"} color="#f13d3d" fontFamily={"HomemadeApple"} variant="h4">nos 5 agences parisiennes</Typography>
+                </Grid>                {
                     agencyData != null && agencyData.map(item => (
                         <Grid item>
                             <Card sx={{ maxWidth: 300, minHeight: 180, marginTop: 5 }}>
-                                <CardMedia
-                                // component="img"
-                                // height="140"
-                                // image="/static/images/cards/contemplative-reptile.jpg"
-                                // alt="green iguana"
-                                />
                                 <CardContent>
                                     <Typography gutterBottom variant="h5" component="div" color="#f13d3d" fontFamily={"HomemadeApple"}>
                                         {item.name}
